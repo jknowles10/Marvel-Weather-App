@@ -1,3 +1,4 @@
+
 const cityInput = $('#city-input');
 const submitBtn = $('#submit-button');
 const cityFormEl = $("#city-form");
@@ -67,7 +68,7 @@ function getAPIs() {
     // Location API URL: 
 
     // Weather API URL: 
-
-    // Marvel API URL: 
+  
+// Marvel API URL: 
 
 }
