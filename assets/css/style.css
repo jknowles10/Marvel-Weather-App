@@ -1,0 +1,18 @@
+.bangers-regular {
+    font-family: "Bangers", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+* {
+font-family: "Bangers", system-ui;
+font-style: normal; 
+letter-spacing: 1px;
+
+}
+
+.title {
+
+letter-spacing: 2px;  
+}
+  
