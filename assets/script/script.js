@@ -1,3 +1,4 @@
+
 const cityInput = document.getElementById("city-input");
 const submitBtn = document.getElementById("submit-button");
 const cityFormEl = document.getElementById("city-form");
@@ -26,12 +27,9 @@ fetch(queryURL)
 };
 
 function getAPIs () {
-    // space for weather API fetch request
-
-    // space for Marvel API fetch request
-
-    // testing another push
+// Location API URL: 
+// Weather API URL: 
+// Marvel API URL: 
 
 }
 
-getAPIs();
