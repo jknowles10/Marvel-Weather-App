@@ -6,64 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Marvel Weather</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 </head>
-  <body>
+
+
+<body>
 
     <div class="columns">
-      <div class="column">
-        <image>
-          <figure class="image is-360x640">
-            <img src="assets/images/marvelcharacters1.png" />
-          </figure>
-          </image>
+        <div class="column">
+            <image>
+                <figure class="image is-360x640">
+                    <img src="assets/images/marvelcharacters1.png" />
+                </figure>
+            </image>
 
-      </div>
+        </div>
 
-      <div class="column">
-        <section class="section">
-          <div class="container">
-            <div class = notification is-primary">
-    
-    
-            <h1 class="title" style="margin-bottom: 20px;"> Marvel Weather App</h1>
-            <p class="subtitle" style="width:500px">
-              Bad weather heading your way?
-    
-    Enter your location below to see your upcoming forecast and your superhero who will come to help!
-              
-            </p>
-            <form id="city-form">
-            <div class="field">
-              <div class="control">
-                <input id="city-input" class="input is-rounded" type="text" placeholder="Enter City" style="width:500px">
-              </div>
-            </div>
-            <div class="field">
-             
-            </div>
-            <div class="buttons">
-              <a style="margin-top: 10px;" id= "submit-button" class="button is-primary">Submit</a>
-            </div>
-            </form>
-           
-          </div>
-          </div>
-    
-        </section>
-    
-      </div>
+        <div class="column">
+            <section class="section">
+                <div class="container">
+                    <div class=notification is-primary">
 
 
-      <div class="column">
-        <image style="width:300px">
-          <figure class="image is-360x640">
-            <img src="assets/images/marvelcharacters2.png" />
-          </figure>
-          </image>
+                        <h1 class="title" style="margin-bottom: 20px;"> Marvel Weather App</h1>
+                        <p class="subtitle" style="width:500px">
+                            Bad weather heading your way?
 
-      </div>
+                            Enter your location below to see your upcoming forecast and your superhero who will come to
+                            help!
+
+                        </p>
+                        <form id="city-form">
+                            <div class="field">
+                                <div class="control">
+                                    <input id="city-input" class="input is-rounded" type="text" placeholder="Enter City"
+                                        style="width:500px">
+                                </div>
+                            </div>
+                            <div class="field">
+
+                            </div>
+                            <div class="buttons">
+                                <a style="margin-top: 10px;" id="submit-button" class="button is-primary">Submit</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
 
 
-    
-     </body>
+        <div class="column">
+            <image style="width:300px">
+                <figure class="image is-360x640">
+                    <img src="assets/images/marvelcharacters2.png" />
+                </figure>
+            </image>
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+            integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+        <script src="./assets/script/script.js"></script>
+
+</body>
 </html>
