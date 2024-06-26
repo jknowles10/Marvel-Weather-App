@@ -98,5 +98,18 @@ function fetchMarvelAPI() {
         });
 }
 
+//functions to open and close the Modal//
+function openModal() {
+    console.log("Opening modal");
+    $('#result-modal').addClass('is-active');
+}
+
+function closeModal() {
+    console.log("Closing modal");
+    $('#result-modal').removeClass('is-active');
+}
+
+$(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
+
 submitBtn.on('click', formSubmitHandler);
 
