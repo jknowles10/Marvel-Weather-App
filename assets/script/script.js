@@ -3,7 +3,7 @@ const submitBtn = $('#submit-button');
 const cityFormEl = $("#city-form");
 const APIKey = `89c2d10cea5bf468636c45b15924d79d`;
 let city;
-// testing
+
 // functions to store and retrieve the lat and lon from the location API in local storage so we can pull it out in the weather API.
 function storeLocation(lat, lon) {
     localStorage.setItem('lat', JSON.stringify(lat));
@@ -36,7 +36,7 @@ const formSubmitHandler = function (event) {
             return response.json();
         })
         .then(function (data) {
-            
+
             console.log("lat " + data[0].lat);
             console.log("lon " + data[0].lon);
 
@@ -59,15 +59,8 @@ const formSubmitHandler = function (event) {
             console.log(data);
             console.log("^^^ weather data ^^^");
         })
+
+        // Add Marvel API fetch here // -Neil
 };
 
 submitBtn.on('click', formSubmitHandler);
-
-function getAPIs() {
-    // Location API URL: 
-
-    // Weather API URL: 
-
-    // Marvel API URL: 
-
-}
