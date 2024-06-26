@@ -43,7 +43,6 @@
                             <div class="field"></div>
                             <div class="buttons">
                                 <a style="margin-top: 10px;" id="submit-button" class="button is-primary">Submit</a>
-                                <!-- Neil is going to modify this button to link to the modal body -->
                             </div>
                         </form>
                     </div>
@@ -57,6 +56,24 @@
                     <img src="assets/images/marvelcharacters2.png" />
                 </figure>
             </image>
+        </div>
+    </div>
+
+    <!-- Modal moved outside the buttons container -Neil -->
+    <div class="modal" id="result-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Weather and Superheroes</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div id="weather-info"></div>
+                <div id="marvel-info"></div>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success" id="modal-close">Close</button>
+            </footer>
         </div>
     </div>
 
