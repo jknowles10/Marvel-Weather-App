@@ -92,21 +92,11 @@ function fetchMarvelAPI() {
         .then(function (data) {
             console.log(data);
             console.log("^^^ Marvel data ^^^");
-
-            // Display Marvel data in the modal
-            const comic = data.data.results[0];
-            $('#marvel-info').html(`
-                <p><strong>Title:</strong> ${comic.title}</p>
-                <p><strong>Description:</strong> ${comic.description || 'No description available'}</p>
-                <figure class="image is-4by3">
-                    <img src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}">
-                </figure>
-            `);
         })
-
         .catch(function (error) {
             console.error("Error fetching Marvel API data:", error);
         });
 }
 
 submitBtn.on('click', formSubmitHandler);
+
