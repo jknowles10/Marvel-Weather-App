@@ -1,4 +1,3 @@
-
 const cityInput = $('#city-input');
 const submitBtn = $('#submit-button');
 const cityFormEl = $("#city-form");
@@ -37,7 +36,7 @@ const formSubmitHandler = function (event) {
             return response.json();
         })
         .then(function (data) {
-            
+
             console.log("lat " + data[0].lat);
             console.log("lon " + data[0].lon);
 
@@ -60,15 +59,8 @@ const formSubmitHandler = function (event) {
             console.log(data);
             console.log("^^^ weather data ^^^");
         })
+
+        // Add Marvel API fetch here // -Neil
 };
 
 submitBtn.on('click', formSubmitHandler);
-
-function getAPIs() {
-    // Location API URL: 
-
-    // Weather API URL: 
-  
-// Marvel API URL: 
-
-}
