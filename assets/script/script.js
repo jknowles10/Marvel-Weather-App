@@ -4,15 +4,21 @@ const cityFormEl = $("#city-form");
 const APIKey = `89c2d10cea5bf468636c45b15924d79d`;
 let city;
 
-// functions to store and retrieve the lat and lon from the location API in local storage so we can pull it out in the weather API.
+// Marvel API keys - Neil
+const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
+const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
+
+// Functions to store and retrieve the lat and lon from the location API in local storage so we can pull it out in the weather API.
 function storeLocation(lat, lon) {
     localStorage.setItem('lat', JSON.stringify(lat));
     localStorage.setItem('lon', JSON.stringify(lon));
 }
+
 function getLat() {
     let lat = JSON.parse(localStorage.getItem('lat'));
     return lat;
 }
+
 function getLon() {
     let lon = JSON.parse(localStorage.getItem('lon'));
     return lon;
@@ -23,10 +29,6 @@ const formSubmitHandler = function (event) {
     city = cityInput.val();
     console.log(city);
 
-    let userSearchLat;
-    let userSearchLon;
-
-
     let queryLocationURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
 
     console.log(queryLocationURL);
@@ -36,31 +38,61 @@ const formSubmitHandler = function (event) {
             return response.json();
         })
         .then(function (data) {
+            if (data.length > 0) {
+                console.log("lat " + data[0].lat);
+                console.log("lon " + data[0].lon);
 
-            console.log("lat " + data[0].lat);
-            console.log("lon " + data[0].lon);
+                let userSearchLat = data[0].lat;
+                let userSearchLon = data[0].lon;
 
-            userSearchLat = data[0].lat;
-            userSearchLon = data[0].lon;
+                storeLocation(userSearchLat, userSearchLon);
 
-            storeLocation(userSearchLat, userSearchLon);
-        });
+                let lat = getLat();
+                let lon = getLon();
 
-    let lat = getLat();
-    let lon = getLon();
+                let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&appid=${APIKey}`;
 
-    let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&appid=${APIKey}`;
-
-    fetch(queryWeatherURL)
+                return fetch(queryWeatherURL);
+            } else {
+                throw new Error('Location not found');
+            }
+        })
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             console.log(data);
             console.log("^^^ weather data ^^^");
-        })
 
-        // Add Marvel API fetch here // -Neil
+            // Add Marvel API fetch here -Neil
+            fetchMarvelAPI();
+        })
+        .catch(function (error) {
+            console.error("Error fetching data:", error);
+        });
 };
 
+function fetchMarvelAPI() {
+    const ts = Date.now().toString();
+    const toHash = ts + marvelPrivateKey + marvelPublicKey;
+    const hash = md5(toHash);
+    const baseUrl = "http://gateway.marvel.com/v1/public/comics";
+    const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+
+    console.log(url);
+
+    fetch(url)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            console.log("^^^ Marvel data ^^^");
+        })
+        .catch(function (error) {
+            console.error("Error fetching Marvel API data:", error);
+        });
+}
+
 submitBtn.on('click', formSubmitHandler);
+
