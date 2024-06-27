@@ -18,6 +18,16 @@ function getLon() {
     return lon;
 }
 
+// function to save favorite locations and/or heros to local storage
+function storeHeroes (hero) {
+    localStorage.setItem('heroes', hero);
+}
+function storeLocationFaves (faveLocation) {
+    localStorage.setItem('faveLoc', faveLocation);
+}
+
+
+
 const formSubmitHandler = function (event) {
     event.preventDefault();
     city = cityInput.val();
