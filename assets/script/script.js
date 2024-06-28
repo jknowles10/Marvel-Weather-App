@@ -80,7 +80,7 @@ function fetchMarvelAPI() {
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
-    const baseUrl = "https://gateway.marvel.com/v1/public/comics";
+    const baseUrl = "http://gateway.marvel.com/v1/public/comics";
     const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
     
     console.log(url);
