@@ -1,30 +1,32 @@
+// Get references to HTML elements using jQuery
 const cityInput = $('#city-input');
 const submitBtn = $('#submit-button');
 const cityFormEl = $("#city-form");
-const APIKey = `89c2d10cea5bf468636c45b15924d79d`;
+
+// API key for OpenWeatherMap
+const APIKey = '89c2d10cea5bf468636c45b15924d79d'; 
 let city;
 
-// Marvel API keys - Neil
+// Marvel API keys
 const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
 const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
 
-// Functions to store and retrieve the lat and lon from the location API in local storage so we can pull it out in the weather API.
+// Functions to store and retrieve the latitude and longitude from local storage
 function storeLocation(lat, lon) {
     localStorage.setItem('lat', JSON.stringify(lat));
     localStorage.setItem('lon', JSON.stringify(lon));
 }
 
 function getLat() {
-    let lat = JSON.parse(localStorage.getItem('lat'));
-    return lat;
+    return JSON.parse(localStorage.getItem('lat'));
 }
 
 function getLon() {
-    let lon = JSON.parse(localStorage.getItem('lon'));
-    return lon;
+    return JSON.parse(localStorage.getItem('lon'));
 }
 
-const formSubmitHandler = function (event) {
+// Handle form submission
+const formSubmitHandler = function(event) {
     event.preventDefault();
     city = cityInput.val();
     
@@ -35,10 +37,10 @@ const formSubmitHandler = function (event) {
     console.log(queryLocationURL);
     
     fetch(queryLocationURL)
-        .then(function (response) {
+        .then(function(response) {
             return response.json();
         })
-        .then(function (data) {
+        .then(function(data) {
             if (data.length > 0) {
                 console.log("lat " + data[0].lat);
                 console.log("lon " + data[0].lon);
@@ -53,10 +55,10 @@ const formSubmitHandler = function (event) {
                 throw new Error('Location not found');
             }
         })
-        .then(function (response) {
+        .then(function(response) {
             return response.json();
         })
-        .then(function (data) {
+        .then(function(data) {
             console.log(data);
             console.log("^^^ weather data ^^^");
 
@@ -70,35 +72,35 @@ const formSubmitHandler = function (event) {
             // Marvel API fetch
             fetchMarvelAPI();
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.error("Error fetching data:", error);
         });
 };
 
+// Function to fetch data from Marvel API
 function fetchMarvelAPI() {
-   
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
-    const baseUrl = "http://gateway.marvel.com/v1/public/comics";
+    const baseUrl = "https://gateway.marvel.com/v1/public/comics";
     const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
     
     console.log(url);
     
     fetch(url)
-        .then(function (response) {
+        .then(function(response) {
             return response.json();
         })
-        .then(function (data) {
+        .then(function(data) {
             console.log(data);
             console.log("^^^ Marvel data ^^^");
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.error("Error fetching Marvel API data:", error);
         });
 }
 
-//functions to open and close the Modal//
+// Functions to open and close the modal
 function openModal() {
     console.log("Opening modal");
     $('#result-modal').addClass('is-active');
@@ -109,7 +111,6 @@ function closeModal() {
     $('#result-modal').removeClass('is-active');
 }
 
+// Event listeners for modal close buttons and form submission
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
-
 submitBtn.on('click', formSubmitHandler);
-
