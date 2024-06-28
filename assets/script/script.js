@@ -1,5 +1,5 @@
 const cityInput = $('#city-input');
-const submitBtn = $('#submit-button');
+const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d'; 
