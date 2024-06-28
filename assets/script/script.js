@@ -23,8 +23,20 @@ function getLon() {
     return JSON.parse(localStorage.getItem('lon'));
 }
 
-// Handle form submission
-const formSubmitHandler = function(event) {
+
+
+// function to save favorite locations and/or heros to local storage
+function storeHeroes (hero) {
+    localStorage.setItem('heroes', hero);
+}
+function storeLocationFaves (faveLocation) {
+    localStorage.setItem('faveLoc', faveLocation);
+}
+
+
+
+const formSubmitHandler = function (event) {
+
     event.preventDefault();
     city = cityInput.val();
     
