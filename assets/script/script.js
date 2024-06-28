@@ -1,9 +1,7 @@
-// Get references to HTML elements using jQuery
 const cityInput = $('#city-input');
 const submitBtn = $('#submit-button');
 const cityFormEl = $("#city-form");
 
-// API key for OpenWeatherMap
 const APIKey = '89c2d10cea5bf468636c45b15924d79d'; 
 let city;
 
@@ -69,15 +67,15 @@ const formSubmitHandler = function(event) {
                 <p><strong>Temperature:</strong> ${(data.list[0].main.temp - 273.15).toFixed(2)} °C</p>
             `);
 
-            // Marvel API fetch
             fetchMarvelAPI();
+
+            openModal();
         })
         .catch(function(error) {
             console.error("Error fetching data:", error);
         });
 };
 
-// Function to fetch data from Marvel API
 function fetchMarvelAPI() {
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
@@ -100,7 +98,6 @@ function fetchMarvelAPI() {
         });
 }
 
-// Functions to open and close the modal
 function openModal() {
     console.log("Opening modal");
     $('#result-modal').addClass('is-active');
@@ -111,6 +108,5 @@ function closeModal() {
     $('#result-modal').removeClass('is-active');
 }
 
-// Event listeners for modal close buttons and form submission
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
 submitBtn.on('click', formSubmitHandler);
