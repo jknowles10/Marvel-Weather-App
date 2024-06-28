@@ -122,3 +122,10 @@ function closeModal() {
 
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
 submitBtn.on('click', formSubmitHandler);
+
+cityInput.on('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        submitBtn.click();
+    }
+});
