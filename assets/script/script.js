@@ -15,18 +15,16 @@ function storeLocation(lat, lon) {
     localStorage.setItem('lat', JSON.stringify(lat));
     localStorage.setItem('lon', JSON.stringify(lon));
 }
-
 function getLat() {
     return JSON.parse(localStorage.getItem('lat'));
 }
-
 function getLon() {
     return JSON.parse(localStorage.getItem('lon'));
 }
+// -----
 
 
-
-// function to save favorite locations and/or heros to local storage
+// function to save heros to local storage
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
 }
@@ -40,12 +38,36 @@ function getStoredHeroes() {
         return heroes;
     }
 }
-function storeLocationFaves(faveLocation) {
-    localStorage.setItem('faveLoc', faveLocation);
+
+// functions to get and store fave results
+function storeResultFaves(faveLocation) {
+    localStorage.setItem('faveResults', JSON.stringify(faveLocation));
+}
+function getResultFaves() {
+    const faves = [];
+    if (localStorage.getItem('faveReults') != null) {
+        faves = JSON.parse(localStorage.getItem('faveReults'));
+        return faves;
+    } else {
+        return faves;
+    }
+}
+
+// functions to get and store the random hero
+function storeRandHero (hero) {
+    localStorage.setItem('randHero', hero);
+}
+function getRandHero () {
+    return JSON.parse(localStorage.getItem('randHero'));
 }
 
 // function to make hero cards
-function printHeroCard(name, pic, desc) {
+function printHeroCard(hero) {
+
+    const name = hero.nameHero;
+    const pic = hero.picHero;
+    const desc = hero.descHero;
+
     // create card elements
     const heroCard = $('<div>')
         .addClass('card')
@@ -61,10 +83,6 @@ function printHeroCard(name, pic, desc) {
     const figure1 = $('<figure>')
         .addClass('image is-4by3');
 
-    const heroPic = $('<image>')
-        .attr('alt', `An image of ${name}`)
-        .attr(`src="${pic}"`);
-
     const heroDesc = $('<p>')
         .addClass('card-content')
         .text(desc);
@@ -77,20 +95,6 @@ function printHeroCard(name, pic, desc) {
 
     return heroCard;
 
-}
-
-// function to ensure a hero isn't added in the array more than once
-function heroArrayCleanup(name) {
-    const heroes = getStoredHeroes();
-
-    for (let i = 0; i < heroes.length; ++i) {
-        if (name == heroes[i].nameHero) {
-            console.log('name is already in the array!');
-            heroes.splice(i, 1);
-        }
-    }
-
-    storeHeroes(heroes);
 }
 
 const formSubmitHandler = function (event) {
@@ -137,13 +141,21 @@ const formSubmitHandler = function (event) {
                 <p><strong>Temperature:</strong> ${(data.list[0].main.temp - 273.15).toFixed(2)} °C</p>
             `);
 
-            fetchMarvelAPI();
+            //fetchMarvelAPI();
+
+            pickRandHero();
+
+            modalMarvelEl.empty();
+
+            modalMarvelEl.append(printHeroCard(JSON.parse(localStorage.getItem('randHero'))));
 
             openModal();
         })
         .catch(function (error) {
             console.error("Error fetching data:", error);
         });
+
+    cityInput.val("");
 };
 
 function fetchMarvelAPI() {
@@ -198,9 +210,9 @@ function fetchMarvelAPI() {
 
             //heroArrayCleanup(hero.nameHero);
 
-            heroes.push(hero);
+            //heroes.push(hero);
 
-            storeHeroes(heroes);
+            //storeHeroes(heroes);
 
             //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
 
@@ -236,11 +248,11 @@ function fetchMarvelAPI() {
 
             //heroArrayCleanup(hero.nameHero);
 
-            heroes.push(hero);
+            //heroes.push(hero);
 
-            storeHeroes(heroes);
+            //storeHeroes(heroes);
 
-            //modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+            //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
 
         })
         .catch(function (error) {
@@ -270,14 +282,14 @@ function fetchMarvelAPI() {
                 picHero: `${picURL}.${picExt}`,
                 descHero: data.data.results[0].description
             }
-            
+
             //heroArrayCleanup(hero.nameHero);
 
-            heroes.push(hero);
+            //heroes.push(hero);
 
-            storeHeroes(heroes);
+            //storeHeroes(heroes);
 
-            //modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+            //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
 
         })
         .catch(function (error) {
@@ -307,14 +319,14 @@ function fetchMarvelAPI() {
                 picHero: `${picURL}.${picExt}`,
                 descHero: data.data.results[0].description
             }
-            
+
             //heroArrayCleanup(hero.nameHero);
 
-            heroes.push(hero);
+            //heroes.push(hero);
 
-            storeHeroes(heroes);
+            //storeHeroes(heroes);
 
-            //modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+            //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
 
         })
         .catch(function (error) {
@@ -344,14 +356,14 @@ function fetchMarvelAPI() {
                 picHero: `${picURL}.${picExt}`,
                 descHero: data.data.results[0].description
             }
-            
+
             //heroArrayCleanup(hero.nameHero);
 
-            heroes.push(hero);
+            //heroes.push(hero);
 
-            storeHeroes(heroes);
+            //storeHeroes(heroes);
 
-            //modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+            //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
 
         })
         .catch(function (error) {
@@ -378,4 +390,215 @@ cityInput.on('keydown', function (event) {
         event.preventDefault();
         submitBtn.click();
     }
+});
+
+// function to pick a random hero from the heroes array
+function pickRandHero() {
+    const heroes = getStoredHeroes();
+    localStorage.setItem('randHero', JSON.stringify(heroes[Math.floor(Math.random() * 6)]));
+}
+
+$(window).on('load', function () {
+    const ts = Date.now().toString();
+    const toHash = ts + marvelPrivateKey + marvelPublicKey;
+    const hash = md5(toHash);
+    const baseUrl = "https://gateway.marvel.com/v1/public/characters";
+    const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    const hulkUrl = `${baseUrl}?name=hulk&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    const thorUrl = `${baseUrl}?name=thor&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    const spiderManUrl = `${baseUrl}?name=spider-man (peter parker)&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    const ironManUrl = `${baseUrl}?name=iron man&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    const cptAmericaUrl = `${baseUrl}?name=captain america&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+
+
+
+    if (localStorage.getItem('heroes') === null) {
+        // ------------------------------------------------------------------------- hulk
+        fetch(hulkUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // need to grab the name, pic, and desc of the marvel hero
+                /*
+                data.data.results[0].name
+                data.data.results[0].thumbnail.path
+                data.data.results[0].thumbnail.extension
+                data.data.results[0].description
+                */
+                const heroes = getStoredHeroes();
+
+                const picURL = data.data.results[0].thumbnail.path;
+                const picExt = data.data.results[0].thumbnail.extension;
+
+                const hero = {
+                    nameHero: data.data.results[0].name,
+                    picHero: `${picURL}.${picExt}`,
+                    descHero: data.data.results[0].description
+                }
+
+                //heroArrayCleanup(hero.nameHero);
+
+                heroes.push(hero);
+
+                storeHeroes(heroes);
+
+                //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
+
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
+
+        // ------------------------------------------------------------------------ thor
+        fetch(thorUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // need to grab the name, pic, and desc of the marvel hero
+                /*
+                data.data.results[0].name
+                data.data.results[0].thumbnail.path
+                data.data.results[0].thumbnail.extension
+                data.data.results[0].description
+                */
+
+                const heroes = getStoredHeroes();
+
+                const picURL = data.data.results[0].thumbnail.path;
+                const picExt = data.data.results[0].thumbnail.extension;
+
+                const hero = {
+                    nameHero: data.data.results[0].name,
+                    picHero: `${picURL}.${picExt}`,
+                    descHero: data.data.results[0].description
+                }
+
+                //heroArrayCleanup(hero.nameHero);
+
+                heroes.push(hero);
+
+                storeHeroes(heroes);
+
+                //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
+
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
+
+        // ----------------------------------------------------------------------- spider-man
+        fetch(spiderManUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // need to grab the name, pic, and desc of the marvel hero
+                /*
+                data.data.results[0].name
+                data.data.results[0].thumbnail.path
+                data.data.results[0].thumbnail.extension
+                data.data.results[0].description
+                */
+                const heroes = getStoredHeroes();
+
+                const picURL = data.data.results[0].thumbnail.path;
+                const picExt = data.data.results[0].thumbnail.extension;
+
+                const hero = {
+                    nameHero: data.data.results[0].name,
+                    picHero: `${picURL}.${picExt}`,
+                    descHero: data.data.results[0].description
+                }
+
+                //heroArrayCleanup(hero.nameHero);
+
+                heroes.push(hero);
+
+                storeHeroes(heroes);
+
+                //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
+
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
+
+        // ----------------------------------------------------------------------- iron man
+        fetch(ironManUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // need to grab the name, pic, and desc of the marvel hero
+                /*
+                data.data.results[0].name
+                data.data.results[0].thumbnail.path
+                data.data.results[0].thumbnail.extension
+                data.data.results[0].description
+                */
+                const heroes = getStoredHeroes();
+
+                const picURL = data.data.results[0].thumbnail.path;
+                const picExt = data.data.results[0].thumbnail.extension;
+
+                const hero = {
+                    nameHero: data.data.results[0].name,
+                    picHero: `${picURL}.${picExt}`,
+                    descHero: data.data.results[0].description
+                }
+
+                //heroArrayCleanup(hero.nameHero);
+
+                heroes.push(hero);
+
+                storeHeroes(heroes);
+
+                //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
+
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
+
+        // ------------------------------------------------------------------------ captain america
+        fetch(cptAmericaUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // need to grab the name, pic, and desc of the marvel hero
+                /*
+                data.data.results[0].name
+                data.data.results[0].thumbnail.path
+                data.data.results[0].thumbnail.extension
+                data.data.results[0].description
+                */
+                const heroes = getStoredHeroes();
+
+                const picURL = data.data.results[0].thumbnail.path;
+                const picExt = data.data.results[0].thumbnail.extension;
+
+                const hero = {
+                    nameHero: data.data.results[0].name,
+                    picHero: `${picURL}.${picExt}`,
+                    descHero: data.data.results[0].description
+                }
+
+                //heroArrayCleanup(hero.nameHero);
+
+                heroes.push(hero);
+
+                storeHeroes(heroes);
+
+                //modalMarvelEl.append(printHeroCard(hero.nameHero, hero.picHero, hero.descHero));
+
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
+
+    }
+
 });
