@@ -70,7 +70,7 @@ line-height: 1;
 
 blockquote.electric {
 background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/electric.svg); 
-width: 25%;
+width: 30%;
 font-size: 2.4vw;
 font-style: italic;
 padding: 4% 6% 12% 0%;
@@ -79,4 +79,19 @@ blockquote.electric span {
 display: block;
 font-size: 3vw;
 font-weight: bold;
+}
+
+.star {
+  visibility:hidden;
+  font-size:30px;
+  cursor:pointer;
+}
+.star:before {
+ content: "\2605";
+ position: absolute;
+ visibility:visible;
+}
+.star:checked:before {
+ content: "\2606";
+ position: absolute;
 }
