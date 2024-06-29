@@ -59,7 +59,7 @@ const formSubmitHandler = function (event) {
                 storeLocation(userSearchLat, userSearchLon);
                 let lat = getLat();
                 let lon = getLon();
-                let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&appid=${APIKey}`;
+                let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&units=imperial&appid=${APIKey}`;
                 return fetch(queryWeatherURL);
             } else {
                 throw new Error('Location not found');
@@ -76,7 +76,7 @@ const formSubmitHandler = function (event) {
             $('#weather-info').html(`
                 <p><strong>City:</strong> ${city}</p>
                 <p><strong>Weather:</strong> ${data.list[0].weather[0].description}</p>
-                <p><strong>Temperature:</strong> ${(data.list[0].main.temp - 273.15).toFixed(2)} °C</p>
+                <p><strong>Temperature:</strong> ${(data.list[0].main.temp)}</p>
             `);
 
             fetchMarvelAPI();
@@ -92,7 +92,7 @@ function fetchMarvelAPI() {
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
-    const baseUrl = "https://gateway.marvel.com/v1/public/comics";
+    const baseUrl = "https://gateway.marvel.com/v1/public/characters";
     const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
     
     console.log(url);
