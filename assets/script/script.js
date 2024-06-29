@@ -38,6 +38,7 @@ function getStoredHeroes() {
         return heroes;
     }
 }
+// -----
 
 // functions to get and store fave results
 function storeResultFaves(faveLocation) {
@@ -52,6 +53,7 @@ function getResultFaves() {
         return faves;
     }
 }
+// -----
 
 // functions to get and store the random hero
 function storeRandHero (hero) {
@@ -60,6 +62,7 @@ function storeRandHero (hero) {
 function getRandHero () {
     return JSON.parse(localStorage.getItem('randHero'));
 }
+// -----
 
 // function to make hero cards
 function printHeroCard(hero) {
@@ -96,7 +99,9 @@ function printHeroCard(hero) {
     return heroCard;
 
 }
+// -----
 
+// function to handle when the search is submitted
 const formSubmitHandler = function (event) {
 
     event.preventDefault();
@@ -141,8 +146,6 @@ const formSubmitHandler = function (event) {
                 <p><strong>Temperature:</strong> ${(data.list[0].main.temp - 273.15).toFixed(2)} °C</p>
             `);
 
-            //fetchMarvelAPI();
-
             pickRandHero();
 
             modalMarvelEl.empty();
@@ -157,7 +160,9 @@ const formSubmitHandler = function (event) {
 
     cityInput.val("");
 };
+// -----
 
+// Marvel fetch function
 function fetchMarvelAPI() {
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
@@ -370,21 +375,26 @@ function fetchMarvelAPI() {
             console.error("Error fetching Marvel API data:", error);
         });
 }
+// -----
 
+// functions to open and close the modal
 function openModal() {
     console.log("Opening modal");
     $('#result-modal').addClass('is-active');
 }
-
 function closeModal() {
     console.log("Closing modal");
     $('#result-modal').removeClass('is-active');
 }
+// -----
 
+// event listener for closing the modal
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
 
+// event listener for the search button being clicked
 submitBtn.on('click', formSubmitHandler);
 
+// event listener for the user hitting the enter button
 cityInput.on('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
@@ -397,7 +407,9 @@ function pickRandHero() {
     const heroes = getStoredHeroes();
     localStorage.setItem('randHero', JSON.stringify(heroes[Math.floor(Math.random() * 6)]));
 }
+// -----
 
+// the document.ready function to load or run things when the page finished loading
 $(window).on('load', function () {
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
@@ -602,3 +614,4 @@ $(window).on('load', function () {
     }
 
 });
+// -----
