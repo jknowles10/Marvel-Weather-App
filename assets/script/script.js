@@ -1,6 +1,7 @@
 const cityInput = $('#city-input');
 const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
+const modalMarvelEl = $('#marvel-info');
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d'; 
 let city;
@@ -26,14 +27,57 @@ function getLon() {
 
 
 // function to save favorite locations and/or heros to local storage
-function storeHeroes (hero) {
-    localStorage.setItem('heroes', hero);
+function storeHeroes (heroArray) {
+    localStorage.setItem('heroes', heroArray);
+}
+function getStoredHeroes () {
+    let heroes = [];
+
+    if(localStorage.getItem('heroes') != null) {
+        heroes = JSON.parse(localStorage.getItem('heroes'));
+        return heroes;
+    } else {
+        return heroes;
+    }
 }
 function storeLocationFaves (faveLocation) {
     localStorage.setItem('faveLoc', faveLocation);
 }
 
+// function to make hero cards
+function printHeroCard (name, pic, desc) {
+    // create card elements
+    const heroCard = $('<div>')
+    .addClass('card')
+    .attr('data-hero', name);
 
+    const heroName = $('<h4>')
+    .addClass(`card-header-title`)
+    .text(name);
+
+    const div1 = $('<div>')
+    .addClass('card-image');
+
+    const figure1 = $('<figure>')
+    .addClass('image is-4by3');
+
+    const heroPic = $('<image>')
+    .attr('alt', `An image of ${name}`)
+    .attr(`src="${pic}"`);
+
+    const heroDesc = $('<p>')
+    .addClass('card-content')
+    .text(desc);
+
+    figure1.append(`<img src="${pic}" />`);
+
+    div1.append(figure1);
+
+    heroCard.append([heroName, div1, heroDesc]);
+
+    return heroCard;
+
+}
 
 const formSubmitHandler = function (event) {
 
@@ -92,8 +136,8 @@ function fetchMarvelAPI() {
     const ts = Date.now().toString();
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
-    const baseUrl = "https://gateway.marvel.com/v1/public/comics";
-    const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    const baseUrl = "https://gateway.marvel.com/v1/public/characters";
+    const url = `${baseUrl}?name=hulk&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
     
     console.log(url);
     
@@ -104,6 +148,24 @@ function fetchMarvelAPI() {
         .then(function(data) {
             console.log(data);
             console.log("^^^ Marvel data ^^^");
+            // need to grab the name, pic, and desc of the marvel hero
+            /*
+            data.data.results[0].name
+            data.data.results[0].thumbnail.path
+            data.data.results[0].thumbnail.extension
+            data.data.results[0].description
+            */
+            const nameHero = data.data.results[0].name;
+            const picURL = data.data.results[0].thumbnail.path;
+            const picExt = data.data.results[0].thumbnail.extension;
+            const picHero = `${picURL}.${picExt}`;
+            const descHero = data.data.results[0].description;
+
+            modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+
+            console.log(typeof picHero);
+
+            //console.log(`The name of this hero is ${nameHero}`);
         })
         .catch(function(error) {
             console.error("Error fetching Marvel API data:", error);
@@ -121,6 +183,7 @@ function closeModal() {
 }
 
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
+
 submitBtn.on('click', formSubmitHandler);
 
 cityInput.on('keydown', function(event) {
