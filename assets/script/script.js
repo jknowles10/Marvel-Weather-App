@@ -109,7 +109,7 @@ function handleFave() {
 
         // grab lat, lon, and randhero from localstorage and put into fave array
 
-        
+
     } else {
         faveBtn.removeClass('fave');
         faveBtn.addClass('unfave');
@@ -164,18 +164,19 @@ const formSubmitHandler = function (event) {
 
     cityInput.val("");
 
-    fetchMarvelAPI();
+    // fetchMarvelAPI();
 
     //function to pull random hero from array and put in localStorage
 
-    function randHero () {
+    function randHero() {
         const heroes = getStoredHeroes();
         console.log(heroes);
         let randInt = Math.floor(Math.random() * (heroes.length + 1));
         heroes[randInt];
         localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
 
-}};
+    }
+};
 // -----
 
 // Marvel fetch function
@@ -203,8 +204,8 @@ function fetchMarvelAPI() {
                 return response.json();
             })
             .then(function (data) {
-                console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
-                const heroes = data.data.results;
+                //console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+                const hero = data.data.results;
                 modalMarvelEl.empty(); // Clear previous results
                 // we'll fill the modal with the random hero
 
@@ -214,17 +215,21 @@ function fetchMarvelAPI() {
                     modalMarvelEl.append(heroCard);
                 });
                 */
-               
+
                 // we'll save the heroes array after the for loop
-                storeHeroes(heroes);
+                // storeHeroes(heroes);
+
+                heroes.push(hero);
+                //console.log(heroes);
             })
             .catch(function (error) {
                 console.error("Error fetching Marvel API data:", error);
             });
 
     }
-
-
+    console.log(heroes);
+    //storeHeroes(heroes);
+    localStorage.setItem('heroes', JSON.stringify(heroes))
 }
 // -----
 
@@ -247,4 +252,10 @@ cityInput.on('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
         submitBtn.click();
-}); 
+    }
+}
+); 
+
+$(window).on('load', function () {
+    fetchMarvelAPI();
+})
