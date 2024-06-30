@@ -12,7 +12,7 @@ const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
 const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
 
 // Character IDs
-const characterIDs = [
+const characterID = [
     1009610, // Spider-Man
     1009368, // Iron Man
     1009220, // Captain America
@@ -21,6 +21,7 @@ const characterIDs = [
     1009664, // Thor
     1009268, // Deadpool
     1009282  // Doctor Strange
+
 ];
 
 // Functions to store and retrieve the latitude and longitude from local storage
@@ -72,7 +73,7 @@ function printHeroCard(hero) {
         .attr('data-hero', name);
 
     const heroName = $('<h4>')
-        .addClass(`card-header-title`)
+        .addClass('card-header-title')
         .text(name);
 
     const div1 = $('<div>')
@@ -165,19 +166,26 @@ function fetchMarvelAPI() {
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-    const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}&ids=${characterIDs.join(',')}`;
+    const url = `${baseUrl}/1009610?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+
+    console.log(`Fetching Marvel API with URL: ${url}`);
 
     fetch(url)
         .then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Marvel API response status: ${response.status}`);
+            }
             return response.json();
         })
         .then(function (data) {
-            const heroes = data.data.results;
-            heroes.forEach(hero => {
-                const heroCard = printHeroCard(hero);
-                modalMarvelEl.append(heroCard);
-            });
-            storeHeroes(heroes);
+            console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+                const heroes = data.data.results;
+                modalMarvelEl.empty(); // Clear previous results
+                heroes.forEach(hero => {
+                    const heroCard = printHeroCard(hero);
+                    modalMarvelEl.append(heroCard);
+                });
+                storeHeroes(heroes);
         })
         .catch(function (error) {
             console.error("Error fetching Marvel API data:", error);
