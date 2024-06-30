@@ -2,6 +2,7 @@ const cityInput = $('#city-input');
 const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
 const modalMarvelEl = $('#marvel-info');
+const faveBtn = $('#fave');
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d';
 let city;
@@ -56,10 +57,10 @@ function getResultFaves() {
 // -----
 
 // functions to get and store the random hero
-function storeRandHero (hero) {
+function storeRandHero(hero) {
     localStorage.setItem('randHero', hero);
 }
-function getRandHero () {
+function getRandHero() {
     return JSON.parse(localStorage.getItem('randHero'));
 }
 // -----
@@ -100,6 +101,22 @@ function printHeroCard(hero) {
 
 }
 // -----
+
+// function to handle favorite button
+function handleFave () {
+    // if the fave button is click, change it's class.
+    // if the class is 'fave', save the location and randHero to fave results
+    // if the class is 'unfave' check the fave results array for a matching object and remove it
+    if(faveBtn.hasClass('unfave')) {
+        faveBtn.removeClass('unfave');
+        faveBtn.addClass('fave');
+    } else {
+        faveBtn.removeClass('fave');
+        faveBtn.addClass('unfave');
+    }
+}
+
+faveBtn.on('click', handleFave);
 
 // function to handle when the search is submitted
 const formSubmitHandler = function (event) {
