@@ -105,7 +105,7 @@ function printHeroCard(hero) {
 // function to handle favorite button
 function handleFave () {
     // if the fave button is click, change it's class.
-    // if the class is 'fave', save the location and randHero to fave results
+    // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
     // if the class is 'unfave' check the fave results array for a matching object and remove it
     if(faveBtn.hasClass('unfave')) {
         faveBtn.removeClass('unfave');
