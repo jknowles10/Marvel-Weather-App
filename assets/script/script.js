@@ -38,6 +38,8 @@ function getStoredHeroes() {
     } else {
         return heroes;
     }
+}
+
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
 }
@@ -50,19 +52,8 @@ function getStoredHeroes() {
     } else {
         return heroes;
     }
-function storeHeroes(heroArray) {
-    localStorage.setItem('heroes', JSON.stringify(heroArray));
 }
-function getStoredHeroes() {
-    let heroes = [];
 
-    if (localStorage.getItem('heroes') != null) {
-        heroes = JSON.parse(localStorage.getItem('heroes'));
-        return heroes;
-    } else {
-        return heroes;
-    }
-}
 function storeLocationFaves(faveLocation) {
     localStorage.setItem('faveLoc', faveLocation);
 }
@@ -77,59 +68,6 @@ function getResultFaves() {
 }
 // -----
 
-// function to make hero cards
-function printHeroCard(hero) {
-
-    const name = hero.nameHero;
-    const pic = hero.picHero;
-    const desc = hero.descHero;
-
-    // create card elements
-    const heroCard = $('<div>')
-        .addClass('card')
-        .attr('data-hero', name);
-
-    const heroName = $('<h4>')
-        .addClass(`card-header-title`)
-        .text(name);
-
-    const div1 = $('<div>')
-        .addClass('card-image');
-
-    const figure1 = $('<figure>')
-        .addClass('image is-4by3');
-
-    const heroPic = $('<image>')
-        .attr('alt', `An image of ${name}`)
-        .attr(`src="${pic}"`);
-
-    const heroDesc = $('<p>')
-        .addClass('card-content')
-        .text(desc);
-
-    figure1.append(`<img src="${pic}" />`);
-
-    div1.append(figure1);
-
-    heroCard.append([heroName, div1, heroDesc]);
-
-    return heroCard;
-
-}
-
-// function to ensure a hero isn't added in the array more than once
-function heroArrayCleanup(name) {
-    const heroes = getStoredHeroes();
-
-    for (let i = 0; i < heroes.length; ++i) {
-        if (name == heroes[i].nameHero) {
-            console.log('name is already in the array!');
-            heroes.splice(i, 1);
-        }
-    }
-
-    storeHeroes(heroes);
-}
 // function to make hero cards
 function printHeroCard(hero) {
 
@@ -168,11 +106,11 @@ function printHeroCard(hero) {
 // -----
 
 // function to handle favorite button
-function handleFave () {
+function handleFave() {
     // if the fave button is click, change it's class.
     // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
     // if the class is 'unfave' check the fave results array for a matching object and remove it
-    if(faveBtn.hasClass('unfave')) {
+    if (faveBtn.hasClass('unfave')) {
         faveBtn.removeClass('unfave');
         faveBtn.addClass('fave');
     } else {
@@ -201,10 +139,8 @@ const formSubmitHandler = function (event) {
 
     fetch(queryLocationURL)
         .then(function (response) {
-        .then(function (response) {
             return response.json();
         })
-        .then(function (data) {
         .then(function (data) {
             if (data.length > 0) {
                 console.log("lat " + data[0].lat);
@@ -214,17 +150,17 @@ const formSubmitHandler = function (event) {
                 storeLocation(userSearchLat, userSearchLon);
                 let lat = getLat();
                 let lon = getLon();
+
                 let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&units=imperial&appid=${APIKey}`;
+
                 return fetch(queryWeatherURL);
             } else {
                 throw new Error('Location not found');
             }
         })
         .then(function (response) {
-        .then(function (response) {
             return response.json();
         })
-        .then(function (data) {
         .then(function (data) {
             console.log(data);
             console.log("^^^ weather data ^^^");
@@ -238,7 +174,6 @@ const formSubmitHandler = function (event) {
 
             openModal();
         })
-        .catch(function (error) {
         .catch(function (error) {
             console.error("Error fetching data:", error);
         });
@@ -255,23 +190,14 @@ function fetchMarvelAPI() {
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-    const baseUrl = "https://gateway.marvel.com/v1/public/characters";
     const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-    const hulkUrl = `${baseUrl}?name=hulk&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-    const thorUrl = `${baseUrl}?name=thor&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-    const spiderManUrl = `${baseUrl}?name=spider-man (peter parker)&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-    const ironManUrl = `${baseUrl}?name=iron man&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-    const cptAmericaUrl = `${baseUrl}?name=captain america&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
     console.log(url);
 
-
     fetch(url)
-        .then(function (response) {
         .then(function (response) {
             return response.json();
         })
-        .then(function (data) {
         .then(function (data) {
             console.log(data);
             console.log("^^^ Marvel data ^^^");
@@ -280,7 +206,7 @@ function fetchMarvelAPI() {
             console.error("Error fetching Marvel API data:", error);
         });
 
-    
+
 }
 // -----
 
