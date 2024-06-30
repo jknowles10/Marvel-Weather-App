@@ -10,6 +10,7 @@ let city;
 // Marvel API keys
 const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
 const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
+// -----
 
 // Functions to store and retrieve the latitude and longitude from local storage
 function storeLocation(lat, lon) {
@@ -23,7 +24,6 @@ function getLon() {
     return JSON.parse(localStorage.getItem('lon'));
 }
 // -----
-
 
 // function to save heros to local storage
 function storeHeroes(heroArray) {
@@ -39,7 +39,9 @@ function getStoredHeroes() {
         return heroes;
     }
 }
+// -----
 
+// functions for storing and retrieving heroes
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
 }
@@ -53,13 +55,15 @@ function getStoredHeroes() {
         return heroes;
     }
 }
+// -----
 
-function storeLocationFaves(faveLocation) {
-    localStorage.setItem('faveLoc', faveLocation);
+// functions for storing and retrieving favorites
+function storeLocationFaves(faveResult) {
+    localStorage.setItem('faveResults', faveResult);
 }
 function getResultFaves() {
     const faves = [];
-    if (localStorage.getItem('faveReults') != null) {
+    if (localStorage.getItem('faveResults') != null) {
         faves = JSON.parse(localStorage.getItem('faveReults'));
         return faves;
     } else {
@@ -113,9 +117,15 @@ function handleFave() {
     if (faveBtn.hasClass('unfave')) {
         faveBtn.removeClass('unfave');
         faveBtn.addClass('fave');
+
+        // grab lat, lon, and randhero from localstorage and put into fave array
+
+        
     } else {
         faveBtn.removeClass('fave');
         faveBtn.addClass('unfave');
+
+        // search for hero in fave array by name and remove from array.
     }
 }
 
@@ -180,7 +190,7 @@ const formSubmitHandler = function (event) {
 
     cityInput.val("");
 
-    fetchMarvelAPI();
+    //fetchMarvelAPI();
 };
 // -----
 
@@ -190,21 +200,57 @@ function fetchMarvelAPI() {
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-    const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    
+    // hulkID = '/1009351';
+    // thorID = '/1009664';
+    // spiderID = '/1009610';
+    // ironID = '/1009368';
+    // capt = '/1009220';
 
-    console.log(url);
+    let url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
+    const idArray = [
+        {
+            hero: 'hulk',
+            id: '/1009351'
+        },
+        {
+            hero: 'thor',
+            id: '/1009664'
+
+        },
+        {
+            hero: 'spider',
+            id: '/1009610'
+
+        },
+        {
+            hero: 'iron',
+            id: '/1009368'
+
+        },
+        {
+            hero: 'capt',
+            id: '/1009220'
+
+        }
+    ];
+
+    for(let i = 0; i < idArray.length; ++i) {
+        
+    url = `${baseUrl}${idArray[i].id}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`
     fetch(url)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-            console.log("^^^ Marvel data ^^^");
-        })
-        .catch(function (error) {
-            console.error("Error fetching Marvel API data:", error);
-        });
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+        console.log("^^^ Marvel data ^^^");
+    })
+    .catch(function (error) {
+        console.error("Error fetching Marvel API data:", error);
+    });
+    }
 
 
 }
@@ -234,3 +280,13 @@ cityInput.on('keydown', function (event) {
         submitBtn.click();
     }
 });
+
+$(window).on('load', function() {
+    console.log('loaded');
+    
+})
+
+$(document).ready(function () {
+    console.log('ready');
+    fetchMarvelAPI();
+})
