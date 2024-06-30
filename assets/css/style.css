@@ -16,39 +16,6 @@
   src: url('/assets/font/DigitalStrip2BB_reg.ttf') format('truetype');
 }
 
-/* 
-* {
-  font-family: 'DigitalStrip';
-  font-style: normal; 
-  letter-spacing: 1px;
-  } */
-
-
-/*.title {
-
-letter-spacing: 2px;
-align-content: center;
-text-align: center;  
-} */
-/*
-#hero-image {
-    background-image: url('https://cdn.marvel.com/content/1x/_004tho_com_cut_dsk_01.jpg’);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-    color: #FFFFFF;
-
-}  
-*/
-/*
-.bg-img {
-  background-image:url('https://cdn.marvel.com/content/1x/_004tho_com_cut_dsk_01.jpg’);
-  background-size: cover;
-  background-position:center center;
-  background-repeat: no repeat;
-  background-attachment: fixed;
-}
-*/ 
 body { 
   align-content: center;
   text-align: center;
@@ -133,7 +100,7 @@ font-weight: bold;
 }
 }
 @media screen and (max-width: 480px) {
-blockquote { height: 300px   }
+ { height: 300px   }
 
 .title {
   font-size: ;
