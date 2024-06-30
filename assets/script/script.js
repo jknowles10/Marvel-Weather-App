@@ -157,7 +157,17 @@ const formSubmitHandler = function (event) {
     cityInput.val("");
 
     fetchMarvelAPI();
-};
+
+    //function to pull random hero from array and put in localStorage
+
+    function randHero () {
+        const heroes = getStoredHeroes();
+        console.log(heroes);
+        let randInt = Math.floor(Math.random() * (heroes.length + 1));
+        heroes[randInt];
+        localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
+
+}};
 // -----
 
 // Marvel fetch function
@@ -230,4 +240,4 @@ cityInput.on('keydown', function (event) {
         event.preventDefault();
         submitBtn.click();
     }
-});
+}); 
