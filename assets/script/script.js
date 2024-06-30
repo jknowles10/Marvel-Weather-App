@@ -11,6 +11,19 @@ let city;
 const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
 const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
 
+// Character IDs
+const characterID = [
+    1009610, // Spider-Man
+    1009368, // Iron Man
+    1009220, // Captain America
+    1009351, // Hulk
+    1009189, // Black Widow
+    1009664, // Thor
+    1009268, // Deadpool
+    1009282  // Doctor Strange
+
+];
+
 // Functions to store and retrieve the latitude and longitude from local storage
 function storeLocation(lat, lon) {
     localStorage.setItem('lat', JSON.stringify(lat));
@@ -24,127 +37,44 @@ function getLon() {
 }
 // -----
 
-
-// function to save heros to local storage
+// function to save heroes to local storage
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
 }
 function getStoredHeroes() {
-    let heroes = [];
-
     if (localStorage.getItem('heroes') != null) {
-        heroes = JSON.parse(localStorage.getItem('heroes'));
-        return heroes;
+        return JSON.parse(localStorage.getItem('heroes'));
     } else {
-        return heroes;
+        return [];
     }
-    function storeHeroes(heroArray) {
-        localStorage.setItem('heroes', JSON.stringify(heroArray));
+}
+
+function storeLocationFaves(faveLocation) {
+    localStorage.setItem('faveLoc', faveLocation);
+}
+function getResultFaves() {
+    if (localStorage.getItem('faveReults') != null) {
+        return JSON.parse(localStorage.getItem('faveReults'));
+    } else {
+        return [];
     }
-    function getStoredHeroes() {
-        let heroes = [];
+}
+// -----
 
-        if (localStorage.getItem('heroes') != null) {
-            heroes = JSON.parse(localStorage.getItem('heroes'));
-            return heroes;
-        } else {
-            return heroes;
-        }
-        function storeHeroes(heroArray) {
-            localStorage.setItem('heroes', JSON.stringify(heroArray));
-        }
-        function getStoredHeroes() {
-            let heroes = [];
-
-            if (localStorage.getItem('heroes') != null) {
-                heroes = JSON.parse(localStorage.getItem('heroes'));
-                return heroes;
-            } else {
-                return heroes;
-            }
-        }
-        function storeLocationFaves(faveLocation) {
-            localStorage.setItem('faveLoc', faveLocation);
-        }
-        function getResultFaves() {
-            const faves = [];
-            if (localStorage.getItem('faveReults') != null) {
-                faves = JSON.parse(localStorage.getItem('faveReults'));
-                return faves;
-            } else {
-                return faves;
-            }
-        }
-        // -----
-
-        // function to make hero cards
-        function printHeroCard(hero) {
-
-            const name = hero.nameHero;
-            const pic = hero.picHero;
-            const desc = hero.descHero;
+// function to make hero cards
+function printHeroCard(hero) {
+    const name = hero.name;
+    const pic = `${hero.thumbnail.path}.${hero.thumbnail.extension}`;
+    const desc = hero.description;
 
             // create card elements
             const heroCard = $('<div>')
                 .addClass('card')
                 .attr('data-hero', name);
 
-            const heroName = $('<h4>')
-                .addClass(`card-header-title`)
-                .text(name);
-
-            const div1 = $('<div>')
-                .addClass('card-image');
-
-            const figure1 = $('<figure>')
-                .addClass('image is-4by3');
-
-            const heroPic = $('<image>')
-                .attr('alt', `An image of ${name}`)
-                .attr(`src="${pic}"`);
-
-            const heroDesc = $('<p>')
-                .addClass('card-content')
-                .text(desc);
-
-            figure1.append(`<img src="${pic}" />`);
-
-            div1.append(figure1);
-
-            heroCard.append([heroName, div1, heroDesc]);
-
-            return heroCard;
-
-        }
-
-        // function to ensure a hero isn't added in the array more than once
-        function heroArrayCleanup(name) {
-            const heroes = getStoredHeroes();
-
-            for (let i = 0; i < heroes.length; ++i) {
-                if (name == heroes[i].nameHero) {
-                    console.log('name is already in the array!');
-                    heroes.splice(i, 1);
-                }
-            }
-
-            storeHeroes(heroes);
-        }
-        // function to make hero cards
-        function printHeroCard(hero) {
-
-            const name = hero.nameHero;
-            const pic = hero.picHero;
-            const desc = hero.descHero;
-
-            // create card elements
-            const heroCard = $('<div>')
-                .addClass('card')
-                .attr('data-hero', name);
-
-            const heroName = $('<h4>')
-                .addClass(`card-header-title`)
-                .text(name);
+    const heroName = $('<h4>')
+        .addClass('card-header-title')
+        .text(name);
 
             const div1 = $('<div>')
                 .addClass('card-image');
@@ -162,74 +92,60 @@ function getStoredHeroes() {
 
             heroCard.append([heroName, div1, heroDesc]);
 
-            return heroCard;
+    return heroCard;
+}
+// -----
 
-        }
-        // -----
-
-        // function to handle favorite button
-        function handleFave() {
-            // if the fave button is click, change it's class.
-            // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
-            // if the class is 'unfave' check the fave results array for a matching object and remove it
-            if (faveBtn.hasClass('unfave')) {
-                faveBtn.removeClass('unfave');
-                faveBtn.addClass('fave');
-            } else {
-                faveBtn.removeClass('fave');
-                faveBtn.addClass('unfave');
-            }
-        }
+// function to handle favorite button
+function handleFave() {
+    // if the fave button is click, change its class.
+    // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
+    // if the class is 'unfave' check the fave results array for a matching object and remove it
+    if (faveBtn.hasClass('unfave')) {
+        faveBtn.removeClass('unfave');
+        faveBtn.addClass('fave');
+    } else {
+        faveBtn.removeClass('fave');
+        faveBtn.addClass('unfave');
+    }
+}
 
         faveBtn.on('click', handleFave);
 
-        // function to handle when the search is submitted
-        const formSubmitHandler = function (event) {
+// function to handle when the search is submitted
+const formSubmitHandler = function (event) {
+    event.preventDefault();
+    city = cityInput.val();
 
-            event.preventDefault();
-            city = cityInput.val();
+    let queryLocationURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
 
+    fetch(queryLocationURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (data.length > 0) {
+                let userSearchLat = data[0].lat;
+                let userSearchLon = data[0].lon;
+                storeLocation(userSearchLat, userSearchLon);
+                let lat = getLat();
+                let lon = getLon();
 
-            console.log(city);
+                let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&units=imperial&appid=${APIKey}`;
 
-
-            let queryLocationURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
-
-
-            console.log(queryLocationURL);
-
-
-            fetch(queryLocationURL)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    if (data.length > 0) {
-                        console.log("lat " + data[0].lat);
-                        console.log("lon " + data[0].lon);
-                        let userSearchLat = data[0].lat;
-                        let userSearchLon = data[0].lon;
-                        storeLocation(userSearchLat, userSearchLon);
-                        let lat = getLat();
-                        let lon = getLon();
-                        let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=1&units=imperial&appid=${APIKey}`;
-                        return fetch(queryWeatherURL);
-                    } else {
-                        throw new Error('Location not found');
-                    }
-                })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    console.log(data);
-                    console.log("^^^ weather data ^^^");
-
-                    // Display weather data inside the modal
-                    $('#weather-info').html(`
+                return fetch(queryWeatherURL);
+            } else {
+                throw new Error('Location not found');
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            $('#weather-info').html(`
                 <p><strong>City:</strong> ${city}</p>
                 <p><strong>Weather:</strong> ${data.list[0].weather[0].description}</p>
-                <p><strong>Temperature:</strong> ${(data.list[0].main.temp)}</p>
+                <p><strong>Temperature:</strong> ${data.list[0].main.temp}</p>
             `);
 
                     openModal();
@@ -244,58 +160,57 @@ function getStoredHeroes() {
         };
         // -----
 
-        // Marvel fetch function
-        function fetchMarvelAPI() {
-            const ts = Date.now().toString();
-            const toHash = ts + marvelPrivateKey + marvelPublicKey;
-            const hash = md5(toHash);
-            const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-            const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+// Marvel fetch function
+function fetchMarvelAPI() {
+    const ts = Date.now().toString();
+    const toHash = ts + marvelPrivateKey + marvelPublicKey;
+    const hash = md5(toHash);
+    const baseUrl = "https://gateway.marvel.com/v1/public/characters";
+    const url = `${baseUrl}/1009610?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
-            const hulkUrl = `${baseUrl}?name=hulk&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-            const thorUrl = `${baseUrl}?name=thor&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-            const spiderManUrl = `${baseUrl}?name=spider-man (peter parker)&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-            const ironManUrl = `${baseUrl}?name=iron man&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-            const cptAmericaUrl = `${baseUrl}?name=captain america&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    console.log(`Fetching Marvel API with URL: ${url}`);
 
-            console.log(url);
-
-            fetch(url)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    console.log(data);
-                    console.log("^^^ Marvel data ^^^");
-                })
-                .catch(function (error) {
-                    console.error("Error fetching Marvel API data:", error);
+    fetch(url)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error(`Marvel API response status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+                const heroes = data.data.results;
+                modalMarvelEl.empty(); // Clear previous results
+                heroes.forEach(hero => {
+                    const heroCard = printHeroCard(hero);
+                    modalMarvelEl.append(heroCard);
                 });
-        }
+                storeHeroes(heroes);
+        })
+        .catch(function (error) {
+            console.error("Error fetching Marvel API data:", error);
+        });
+}
+// -----
 
-        // -----
+// functions to open and close the modal
+function openModal() {
+    $('#result-modal').addClass('is-active');
+}
+function closeModal() {
+    $('#result-modal').removeClass('is-active');
+}
+// -----
 
-        // functions to open and close the modal
-        function openModal() {
-            console.log("Opening modal");
-            $('#result-modal').addClass('is-active');
-        }
-        function closeModal() {
-            console.log("Closing modal");
-            $('#result-modal').removeClass('is-active');
-        }
-        // -----
-
-        // event listener for closing the modal
-        $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
-
+// event listener for closing the modal
+$(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
 
         // event listener for the search button being clicked
         submitBtn.on('click', formSubmitHandler);
 
-        cityInput.on('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                submitBtn.click();
-            }
-        });
+cityInput.on('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        submitBtn.click();
+    }
+});
