@@ -98,7 +98,7 @@ function printHeroCard(hero) {
 
 // function to handle favorite button
 function handleFave() {
-    
+
     // if the class is 'unfave' check the fave results array for a matching object and remove it
     if (faveBtn.hasClass('unfave')) {
         // handle toggling the fave class of the favorite button
@@ -134,11 +134,11 @@ function handleFave() {
 
         // loop through to find the matching result, if a match, splice the result out of the array
         for (let i = 0; i < faves.length; ++i) {
-            if(randHero.name === faves[i].name) {
+            if (randHero.name === faves[i].name) {
                 faves.splice(i, 1);
             }
         }
-        
+
         // put the array back into local storage
         storeResultFaves(faves);
     }
@@ -194,14 +194,14 @@ const formSubmitHandler = function (event) {
 
     //function to pull random hero from array and put in localStorage
 
-    function randHero () {
+    function randHero() {
         const heroes = getStoredHeroes();
         console.log(heroes);
         let randInt = Math.floor(Math.random() * (heroes.length + 1));
         heroes[randInt];
         localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
-
-}};
+    }
+};
 // -----
 
 // Marvel fetch function
@@ -229,7 +229,7 @@ function fetchMarvelAPI() {
                 return response.json();
             })
             .then(function (data) {
-                console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+                //console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
                 const heroes = data.data.results;
                 modalMarvelEl.empty(); // Clear previous results
                 // we'll fill the modal with the random hero
