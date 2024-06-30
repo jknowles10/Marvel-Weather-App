@@ -72,7 +72,7 @@ function printHeroCard(hero) {
         .attr('data-hero', name);
 
     const heroName = $('<h4>')
-        .addClass(`card-header-title`)
+        .addClass('card-header-title')
         .text(name);
 
     const div1 = $('<div>')
@@ -167,17 +167,32 @@ function fetchMarvelAPI() {
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
     const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}&ids=${characterIDs.join(',')}`;
 
+    console.log(`Fetching Marvel API with URL: ${url}`);
+
     fetch(url)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            const heroes = data.data.results;
-            heroes.forEach(hero => {
-                const heroCard = printHeroCard(hero);
-                modalMarvelEl.append(heroCard);
-            });
-            storeHeroes(heroes);
+            console.log("Full API response:", data); 
+            if (data && data.data) {
+                console.log("data.data:", data.data);
+                if (data.data.results) {
+                    const heroes = data.data.results;
+                    modalMarvelEl.empty(); 
+                    heroes.forEach(hero => {
+                        const heroCard = printHeroCard(hero);
+                        modalMarvelEl.append(heroCard);
+                    });
+                    storeHeroes(heroes);
+                } else {
+                    console.error('Expected property results is missing from data.data:', data.data);
+                    throw new Error('Invalid Marvel API response');
+                }
+            } else {
+                console.error('Expected property data is missing from response:', data);
+                throw new Error('Invalid Marvel API response');
+            }
         })
         .catch(function (error) {
             console.error("Error fetching Marvel API data:", error);
