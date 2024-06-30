@@ -28,3 +28,8 @@ MIT License
 CSS Framework:https://bulma.io/ 
 OpenWeather Weather API: https://openweathermap.org/api
 Marvel API: https://developer.marvel.com/
+Digital Strip Font: https://www.1001fonts.com/digitalstrip-font.html
+Bangers Google Font: https://fonts.google.com/specimen/Bangers
+Libre Franklin Google Font: https://fonts.google.com/specimen/Libre+Franklin
+
+Images: 

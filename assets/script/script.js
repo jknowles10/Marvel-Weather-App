@@ -29,6 +29,8 @@ function getLon() {
 // function to save favorite locations and/or heros to local storage
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
+
+    
 }
 function getStoredHeroes() {
     let heroes = [];
@@ -38,8 +40,24 @@ function getStoredHeroes() {
         return heroes;
     } else {
         return heroes;
+        
     }
+
+
 }
+
+// function to pull random hero from heroArray and store random hero in local storage
+/*
+function randHero () {
+     const heroes = getStoredHeroes();
+     console.log(heroes);
+     let randInt = Math.floor(Math.random() * (heroes.length + 1));
+     heroes[randInt];
+     localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
+} */
+
+
+
 function storeLocationFaves(faveLocation) {
     localStorage.setItem('faveLoc', faveLocation);
 }
