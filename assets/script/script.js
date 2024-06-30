@@ -13,14 +13,14 @@ const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
 
 // Character IDs
 const characterID = [
-    1009610, // Spider-Man
-    1009368, // Iron Man
-    1009220, // Captain America
-    1009351, // Hulk
-    1009189, // Black Widow
-    1009664, // Thor
-    1009268, // Deadpool
-    1009282  // Doctor Strange
+    '1009610', // Spider-Man
+    '1009368', // Iron Man
+    '1009220', // Captain America
+    '1009351', // Hulk
+    '1009189', // Black Widow
+    '1009664', // Thor
+    '1009268', // Deadpool
+    '1009282'  // Doctor Strange
 
 ];
 
@@ -166,30 +166,47 @@ function fetchMarvelAPI() {
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-    const url = `${baseUrl}/1009610?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    let url = `${baseUrl}/1009610?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
-    console.log(`Fetching Marvel API with URL: ${url}`);
+    // we'll declare the 
+    let heroes = getStoredHeroes();
 
-    fetch(url)
-        .then(function (response) {
-            if (!response.ok) {
-                throw new Error(`Marvel API response status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(function (data) {
-            console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+    for (let i = 0; i < characterID.length; ++i) {
+
+        url = `${baseUrl}/${characterID[i]}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+
+        console.log(`Fetching Marvel API with URL: ${url}`);
+
+        fetch(url)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error(`Marvel API response status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
                 const heroes = data.data.results;
                 modalMarvelEl.empty(); // Clear previous results
+                // we'll fill the modal with the random hero
+
+                /*
                 heroes.forEach(hero => {
                     const heroCard = printHeroCard(hero);
                     modalMarvelEl.append(heroCard);
                 });
+                */
+               
+                // we'll save the heroes array after the for loop
                 storeHeroes(heroes);
-        })
-        .catch(function (error) {
-            console.error("Error fetching Marvel API data:", error);
-        });
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
+
+    }
+
+
 }
 // -----
 
