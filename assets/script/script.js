@@ -49,11 +49,11 @@ function getStoredHeroes() {
     }
 }
 
-function storeLocationFaves(faveLocation) {
-    localStorage.setItem('faveLoc', faveLocation);
+function storeResultFaves(array) {
+    localStorage.setItem('faveResults', JSON.stringify(array));
 }
 function getResultFaves() {
-    if (localStorage.getItem('faveReults') != null) {
+    if (localStorage.getItem('faveResults') != null) {
         return JSON.parse(localStorage.getItem('faveReults'));
     } else {
         return [];
@@ -98,15 +98,49 @@ function printHeroCard(hero) {
 
 // function to handle favorite button
 function handleFave() {
-    // if the fave button is click, change its class.
-    // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
+    
     // if the class is 'unfave' check the fave results array for a matching object and remove it
     if (faveBtn.hasClass('unfave')) {
+        // handle toggling the fave class of the favorite button
         faveBtn.removeClass('unfave');
         faveBtn.addClass('fave');
+
+        // setup variables for the lastResult object
+        const randHero = JSON.parse(localStorage.getItem('randHero'));
+        const curLat = JSON.parse(localStorage.getItem('lat'));
+        const curLon = JSON.parse(localStorage.getItem('lon'));
+        const curResult = {
+            hero: randHero,
+            lat: curLat,
+            lon: curLon
+        }
+
+        // change what the lastResult was in local storage
+        localStorage.setItem('curResult', curResult);
+
+        // pull in favorites from local storage, add lastResult to them, then put the array back into local storage
+        const faveResults = getResultFaves();
+        faveResults.push(curResult);
+        storeResultFaves(faveResults);
+
     } else {
+        // handle the fave class toggle when the user clicks it.
         faveBtn.removeClass('fave');
         faveBtn.addClass('unfave');
+
+        // pull the array from local storage, as well as the rand hero
+        let faves = getResultFaves();
+        const randHero = JSON.parse(localStorage.getItem('randHero'));
+
+        // loop through to find the matching result, if a match, splice the result out of the array
+        for (let i = 0; i < faves.length; ++i) {
+            if(randHero.name === faves[i].name) {
+                faves.splice(i, 1);
+            }
+        }
+        
+        // put the array back into local storage
+        storeResultFaves(faves);
     }
 }
 
@@ -196,7 +230,7 @@ function fetchMarvelAPI() {
                     modalMarvelEl.append(heroCard);
                 });
                 */
-               
+
                 // we'll save the heroes array after the for loop
                 storeHeroes(heroes);
             })
