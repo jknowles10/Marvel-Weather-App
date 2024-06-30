@@ -255,7 +255,6 @@ function fetchMarvelAPI() {
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-    const baseUrl = "https://gateway.marvel.com/v1/public/characters";
     const url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
     const hulkUrl = `${baseUrl}?name=hulk&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
     const thorUrl = `${baseUrl}?name=thor&ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
@@ -308,3 +307,7 @@ cityInput.on('keydown', function (event) {
         submitBtn.click();
     }
 });
+
+$(document).on('load', function() {
+
+})
