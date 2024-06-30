@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-    
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,14 +15,18 @@
 
 <body>
     <div class="columns">
-        
+
         <div class="column">
             <figure class="image is-360x640">
                 <img src="assets/images/marvelcharacters1.png" />
             </figure>
         </div>
-<!-- Main body/form column -->
+        <!-- Main body/form column -->
         <div class="column">
+            <label for="hero-faves">Favorites</label>
+            <select name="heroes" id="hero-faves">
+                <option value="">--Favorite results--</option>
+            </select>
             <section class="section">
                 <div class="container">
                     <div class="notification is-primary">
@@ -35,7 +39,8 @@
                         <form id="city-form">
                             <div class="field">
                                 <div class="control">
-                                    <input id="city-input" class="input is-rounded" type="text" placeholder="Enter City" style="width:500px">
+                                    <input id="city-input" class="input is-rounded" type="text" placeholder="Enter City"
+                                        style="width:500px">
                                 </div>
                             </div>
                             <div class="field"></div>
@@ -59,7 +64,7 @@
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Weather and Superheroes</p>
+                <p class="modal-card-title">Weather and Superheroes <button id="fave" class="unfave">⭐</button></p>
                 <button class="delete" aria-label="close"></button>
             </header>
             <section class="modal-card-body">
@@ -74,7 +79,8 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+        integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
     <!-- js-md5 library for Marvel API - Neil  -->
     <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
     <script src="./assets/script/script.js"></script>
