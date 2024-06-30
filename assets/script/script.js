@@ -10,7 +10,19 @@ let city;
 // Marvel API keys
 const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
 const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
-// -----
+
+// Character IDs
+const characterID = [
+    '1009610', // Spider-Man
+    '1009368', // Iron Man
+    '1009220', // Captain America
+    '1009351', // Hulk
+    '1009189', // Black Widow
+    '1009664', // Thor
+    '1009268', // Deadpool
+    '1009282'  // Doctor Strange
+
+];
 
 // Functions to store and retrieve the latitude and longitude from local storage
 function storeLocation(lat, lon) {
@@ -25,34 +37,15 @@ function getLon() {
 }
 // -----
 
-// function to save heros to local storage
+// function to save heroes to local storage
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
 }
 function getStoredHeroes() {
-    let heroes = [];
-
     if (localStorage.getItem('heroes') != null) {
-        heroes = JSON.parse(localStorage.getItem('heroes'));
-        return heroes;
+        return JSON.parse(localStorage.getItem('heroes'));
     } else {
-        return heroes;
-    }
-}
-// -----
-
-// functions for storing and retrieving heroes
-function storeHeroes(heroArray) {
-    localStorage.setItem('heroes', JSON.stringify(heroArray));
-}
-function getStoredHeroes() {
-    let heroes = [];
-
-    if (localStorage.getItem('heroes') != null) {
-        heroes = JSON.parse(localStorage.getItem('heroes'));
-        return heroes;
-    } else {
-        return heroes;
+        return [];
     }
 }
 // -----
@@ -62,22 +55,19 @@ function storeLocationFaves(faveResult) {
     localStorage.setItem('faveResults', faveResult);
 }
 function getResultFaves() {
-    const faves = [];
-    if (localStorage.getItem('faveResults') != null) {
-        faves = JSON.parse(localStorage.getItem('faveReults'));
-        return faves;
+    if (localStorage.getItem('faveReults') != null) {
+        return JSON.parse(localStorage.getItem('faveReults'));
     } else {
-        return faves;
+        return [];
     }
 }
 // -----
 
 // function to make hero cards
 function printHeroCard(hero) {
-
-    const name = hero.nameHero;
-    const pic = hero.picHero;
-    const desc = hero.descHero;
+    const name = hero.name;
+    const pic = `${hero.thumbnail.path}.${hero.thumbnail.extension}`;
+    const desc = hero.description;
 
     // create card elements
     const heroCard = $('<div>')
@@ -85,7 +75,7 @@ function printHeroCard(hero) {
         .attr('data-hero', name);
 
     const heroName = $('<h4>')
-        .addClass(`card-header-title`)
+        .addClass('card-header-title')
         .text(name);
 
     const div1 = $('<div>')
@@ -105,13 +95,12 @@ function printHeroCard(hero) {
     heroCard.append([heroName, div1, heroDesc]);
 
     return heroCard;
-
 }
 // -----
 
 // function to handle favorite button
 function handleFave() {
-    // if the fave button is click, change it's class.
+    // if the fave button is click, change its class.
     // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
     // if the class is 'unfave' check the fave results array for a matching object and remove it
     if (faveBtn.hasClass('unfave')) {
@@ -133,19 +122,10 @@ faveBtn.on('click', handleFave);
 
 // function to handle when the search is submitted
 const formSubmitHandler = function (event) {
-
     event.preventDefault();
     city = cityInput.val();
 
-
-    console.log(city);
-
-
     let queryLocationURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${APIKey}`;
-
-
-    console.log(queryLocationURL);
-
 
     fetch(queryLocationURL)
         .then(function (response) {
@@ -153,8 +133,6 @@ const formSubmitHandler = function (event) {
         })
         .then(function (data) {
             if (data.length > 0) {
-                console.log("lat " + data[0].lat);
-                console.log("lon " + data[0].lon);
                 let userSearchLat = data[0].lat;
                 let userSearchLon = data[0].lon;
                 storeLocation(userSearchLat, userSearchLon);
@@ -172,14 +150,10 @@ const formSubmitHandler = function (event) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-            console.log("^^^ weather data ^^^");
-
-            // Display weather data inside the modal
             $('#weather-info').html(`
                 <p><strong>City:</strong> ${city}</p>
                 <p><strong>Weather:</strong> ${data.list[0].weather[0].description}</p>
-                <p><strong>Temperature:</strong> ${(data.list[0].main.temp)}</p>
+                <p><strong>Temperature:</strong> ${data.list[0].main.temp}</p>
             `);
 
             openModal();
@@ -190,8 +164,18 @@ const formSubmitHandler = function (event) {
 
     cityInput.val("");
 
-    //fetchMarvelAPI();
-};
+    fetchMarvelAPI();
+
+    //function to pull random hero from array and put in localStorage
+
+    function randHero () {
+        const heroes = getStoredHeroes();
+        console.log(heroes);
+        let randInt = Math.floor(Math.random() * (heroes.length + 1));
+        heroes[randInt];
+        localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
+
+}};
 // -----
 
 // Marvel fetch function
@@ -200,56 +184,44 @@ function fetchMarvelAPI() {
     const toHash = ts + marvelPrivateKey + marvelPublicKey;
     const hash = md5(toHash);
     const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-    
-    // hulkID = '/1009351';
-    // thorID = '/1009664';
-    // spiderID = '/1009610';
-    // ironID = '/1009368';
-    // capt = '/1009220';
+    let url = `${baseUrl}/1009610?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
-    let url = `${baseUrl}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
+    // we'll declare the 
+    let heroes = getStoredHeroes();
 
-    const idArray = [
-        {
-            hero: 'hulk',
-            id: '/1009351'
-        },
-        {
-            hero: 'thor',
-            id: '/1009664'
+    for (let i = 0; i < characterID.length; ++i) {
 
-        },
-        {
-            hero: 'spider',
-            id: '/1009610'
+        url = `${baseUrl}/${characterID[i]}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
-        },
-        {
-            hero: 'iron',
-            id: '/1009368'
+        console.log(`Fetching Marvel API with URL: ${url}`);
 
-        },
-        {
-            hero: 'capt',
-            id: '/1009220'
+        fetch(url)
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error(`Marvel API response status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+                const heroes = data.data.results;
+                modalMarvelEl.empty(); // Clear previous results
+                // we'll fill the modal with the random hero
 
-        }
-    ];
+                /*
+                heroes.forEach(hero => {
+                    const heroCard = printHeroCard(hero);
+                    modalMarvelEl.append(heroCard);
+                });
+                */
+               
+                // we'll save the heroes array after the for loop
+                storeHeroes(heroes);
+            })
+            .catch(function (error) {
+                console.error("Error fetching Marvel API data:", error);
+            });
 
-    for(let i = 0; i < idArray.length; ++i) {
-        
-    url = `${baseUrl}${idArray[i].id}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`
-    fetch(url)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-        console.log("^^^ Marvel data ^^^");
-    })
-    .catch(function (error) {
-        console.error("Error fetching Marvel API data:", error);
-    });
     }
 
 
@@ -258,18 +230,15 @@ function fetchMarvelAPI() {
 
 // functions to open and close the modal
 function openModal() {
-    console.log("Opening modal");
     $('#result-modal').addClass('is-active');
 }
 function closeModal() {
-    console.log("Closing modal");
     $('#result-modal').removeClass('is-active');
 }
 // -----
 
 // event listener for closing the modal
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
-
 
 // event listener for the search button being clicked
 submitBtn.on('click', formSubmitHandler);
@@ -278,15 +247,4 @@ cityInput.on('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
         submitBtn.click();
-    }
-});
-
-$(window).on('load', function() {
-    console.log('loaded');
-    
-})
-
-$(document).ready(function () {
-    console.log('ready');
-    fetchMarvelAPI();
-})
+}); 
