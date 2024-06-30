@@ -11,42 +11,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <section style="min-height: 25vh;">
-        <blockquote class="electric bubble">
-            <h1 class="title has-text-centered" style="margin-bottom: 20px;"> 
-                Marvel Meteorology</h1>
-            </blockquote>
+    <section class="header" style="padding-top: 50px; min-height: 30vh;">
+       <div style="width:500px; margin:auto;" >
+
+        <h1 class="title has-text-centered" style="color: white; font-size:75px; border-width: 2px; border-style: solid; border-color: white;"> 
+            MARVEL</h1>
+        <h1 style="letter-spacing: 2px; color:white; font-size:50px ; font-family: Bangers, system-ui;" class="has-text-centered"> 
+            Meteorology </h1>
+        </div>
+
     </section>
     <!--Section containing 3 columns  -->
-<section style="min-height: 50vh;">
+
+    <section class="main-section" style="min-height: 75vh;">
 
     <div class="columns is-vcentered">
+        
 <!-- First Column -->
         <div class="column is-one-quarter">
-            <figure class="image is-1by1">
-                <img src="https://cdn.marvel.com/content/1x/005smp_com_cut_mob_02_0.jpg" />
+            <figure class="image">
+                <img src="https://cdn.marvel.com/content/1x/_004tho_com_cut_dsk_01.jpg">
             </figure>
+
         </div>
 <!-- Second Column -->
         <div class="column is-half">
             <div class="container">
-                <div class="">
-                    <p class="subtitle has-text-centered" style="width:500px">
+                <div>
+                    <p style="font-family: 'DigitalStrip'; color:black;" class="has-text-centered">
                         Bad weather heading your way?
                         Enter your location below to see your upcoming forecast and your superhero who will come to
                         help!
                     </p>
-                    <form id="city-form">
+                    <form id="city-form" style="margin-top:10px;">
                         <div class="field">
                             <div class="control">
                                 <input id="city-input" class="input is-rounded" type="text" placeholder="Enter City" style="width:500px">
                             </div>
                         </div>
-                        <div class="field"></div>
-                        <button id="submit-button" sytle="width:500px" class="search">Submit</button>
+                        <div style="margin:auto" class="field">
+                        <button style="font-family: 'DigitalStrip';" id="submit-button" class="button search">Submit</button> </div>
                     </form>
                 </blockquote>
                 </div>
@@ -55,10 +66,11 @@
 
 
         </div>
+
 <!-- Third Column -->
-        <div class="column is-one-quarter">
-            <figure class="image is-1by1">
-                <img src="https://cdn.marvel.com/content/1x/002irm_ons_cut_dsk_01_0.jpg" />
+        <div class="column is-one-quarter" >
+            <figure class="image">
+                <img src="https://cdn.marvel.com/content/1x/005smp_com_cut_dsk_02_0.jpg">
             </figure>
         </div>
        
@@ -68,30 +80,35 @@
 
 <section style="min-height: 10vh;">
     
+
     <div class="modal" id="result-modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             
             <header class="modal-card-head">
-                <p class="modal-card-title has-text-centered">Weather and Superheroes</p>
+                <p style="font-family: 'DigitalStrip';" class="modal-card-title has-text-centered">Weather and Superhero</p>
                 <button class="delete" aria-label="close"></button>
             </header>
         
-            <section style="min-height: 50vh;" class="modal-card-body">
+            <section style="font-family:'DigitalStrip'; min-height: 50vh;" class="modal-card-body">
                 <div id="weather-info"></div>
                 <div id="marvel-info"></div>
             </section>
             <footer class="modal-card-foot">
                 <div>
                     <input id="star1" class="star" type="checkbox" style="color:orange;"  title="bookmark page"><br/><br/>
-                    <label for="star1" title="Amazing">Save to Favorites</label>
+                    <label style="font-family: 'DigitalStrip';" for="star1" title="Amazing">Save to Favorites</label>
                   </div>
+
+                  
             </footer>
         
         </div>
     </div>
+    <!-- Marvel credit -->
+    <a style="font-family:'DigitalStrip'; color:white" href="https://marvel.com\">Data provided by Marvel. © 2024 MARVEL</a>
 </section>
-<!-- Marvel Credit -->
+<
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>

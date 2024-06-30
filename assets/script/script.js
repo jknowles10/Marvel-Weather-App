@@ -291,12 +291,12 @@ function fetchMarvelAPI() {
         })
         .then(function (data) {
             // need to grab the name, pic, and desc of the marvel hero
-            /*
+            
             data.data.results[0].name
             data.data.results[0].thumbnail.path
             data.data.results[0].thumbnail.extension
             data.data.results[0].description
-            */
+            
             const heroes = getStoredHeroes();
 
             const picURL = data.data.results[0].thumbnail.path;
@@ -314,7 +314,7 @@ function fetchMarvelAPI() {
 
             storeHeroes(heroes);
 
-            //modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+            modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
 
         })
         .catch(function (error) {
@@ -328,12 +328,12 @@ function fetchMarvelAPI() {
         })
         .then(function (data) {
             // need to grab the name, pic, and desc of the marvel hero
-            /*
+            
             data.data.results[0].name
             data.data.results[0].thumbnail.path
             data.data.results[0].thumbnail.extension
             data.data.results[0].description
-            */
+            
             const heroes = getStoredHeroes();
 
             const picURL = data.data.results[0].thumbnail.path;
@@ -351,7 +351,7 @@ function fetchMarvelAPI() {
 
             storeHeroes(heroes);
 
-            //modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
+            modalMarvelEl.append(printHeroCard(nameHero, picHero, descHero));
 
         })
         .catch(function (error) {
