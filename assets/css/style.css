@@ -56,6 +56,13 @@ body {
   color:black;
 }  
 
+.has-bg-img {
+  background-image: url(/assets/images/4K\ Wallpaper\ For\ Pc\ Marvel\ Gallery.jpg)center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+
 #main-text {
  font-family: 'DigitalStrip';
 
