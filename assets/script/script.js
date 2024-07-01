@@ -2,7 +2,7 @@ const cityInput = $('#city-input');
 const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
 const modalMarvelEl = $('#marvel-info');
-const faveBtn = $('#fave');
+const faveBtn = $('.fave');
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d';
 let city;
@@ -99,22 +99,52 @@ function printHeroCard(hero) {
 // -----
 
 // function to handle favorite button
-function handleFave() {
-    // if the fave button is click, change its class.
-    // if the class is 'fave', save the lat, lon and randHero from local storage to fave results
+function handleFave(event) {
+    event.preventDefault();
+    const target = event.target;
+
     // if the class is 'unfave' check the fave results array for a matching object and remove it
-    if (faveBtn.hasClass('unfave')) {
-        faveBtn.removeClass('unfave');
-        faveBtn.addClass('fave');
+    if (target.hasClass('unfave')) {
+        // handle toggling the fave class of the favorite button
+        target.removeClass('unfave');
+        target.addClass('fave');
 
-        // grab lat, lon, and randhero from localstorage and put into fave array
+        // setup variables for the lastResult object
+        const randHero = JSON.parse(localStorage.getItem('randHero'));
+        const curLat = JSON.parse(localStorage.getItem('lat'));
+        const curLon = JSON.parse(localStorage.getItem('lon'));
+        const curResult = {
+            hero: randHero,
+            lat: curLat,
+            lon: curLon
+        }
 
+        // change what the lastResult was in local storage
+        localStorage.setItem('curResult', curResult);
+
+        // pull in favorites from local storage, add lastResult to them, then put the array back into local storage
+        const faveResults = getResultFaves();
+        faveResults.push(curResult);
+        storeResultFaves(faveResults);
 
     } else {
-        faveBtn.removeClass('fave');
-        faveBtn.addClass('unfave');
+        // handle the fave class toggle when the user clicks it.
+        target.removeClass('fave');
+        target.addClass('unfave');
 
-        // search for hero in fave array by name and remove from array.
+        // pull the array from local storage, as well as the rand hero
+        let faves = getResultFaves();
+        const randHero = JSON.parse(localStorage.getItem('randHero'));
+
+        // loop through to find the matching result, if a match, splice the result out of the array
+        for (let i = 0; i < faves.length; ++i) {
+            if (randHero.name === faves[i].name) {
+                faves.splice(i, 1);
+            }
+        }
+
+        // put the array back into local storage
+        storeResultFaves(faves);
     }
 }
 
