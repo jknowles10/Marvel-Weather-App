@@ -2,8 +2,9 @@
 
 ## Description
 
+
 ## User Story
-As a civilian without superpowers, I would like an app that shows me which superhero will be available to help in my location based on the current weather conditions. 
+As a civilian without superpowers, I would like an app that shows me which Marvel superhero will be available to help in my location based on the current weather conditions. 
 
 ## Acceptance Criteria
 -Use a CSS framework other than Bootstrap.
