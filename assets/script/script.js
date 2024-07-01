@@ -50,12 +50,13 @@ function getStoredHeroes() {
 }
 // -----
 
+
 // functions for storing and retrieving favorites
-function storeLocationFaves(faveResult) {
-    localStorage.setItem('faveResults', faveResult);
+function storeResultFaves(array) {
+    localStorage.setItem('faveResults', JSON.stringify(array));
 }
 function getResultFaves() {
-    if (localStorage.getItem('faveReults') != null) {
+    if (localStorage.getItem('faveResults') != null) {
         return JSON.parse(localStorage.getItem('faveReults'));
     } else {
         return [];
@@ -242,6 +243,7 @@ function fetchMarvelAPI() {
             })
             .then(function (data) {
                 //console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
+
                 const hero = data.data.results;
                 modalMarvelEl.empty(); // Clear previous results
                 // we'll fill the modal with the random hero
