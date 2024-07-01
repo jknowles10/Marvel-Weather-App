@@ -1,6 +1,6 @@
 $(document).ready(function() {
     const cityInput = $('#city-input');
-    const submitBtn = $('#submit-button'); // Correctly select the submit button
+    const submitBtn = $('#submit-button');
     const cityFormEl = $("#city-form");
     const modalMarvelEl = $('#marvel-info');
     const faveBtn = $('.fave');
@@ -25,8 +25,9 @@ $(document).ready(function() {
         '1009351', // Hulk
         '1009368', // Iron Man
         '1010744', // Rocket
+        '1010971', // Scarlet Witch
         '1009610', // Spider-Man
-        '1009619', // Star-Lord
+        '1010733', // Star-Lord
         '1009664', // Thor
         '1010784'  // Wanda Vision
     ];
