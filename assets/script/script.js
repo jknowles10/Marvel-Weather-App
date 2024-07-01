@@ -1,6 +1,6 @@
 $(document).ready(function() {
     const cityInput = $('#city-input');
-    const submitBtn = $('#submit-button'); // Correctly select the submit button
+    const submitBtn = $('#submit-button');
     const cityFormEl = $("#city-form");
     const modalMarvelEl = $('#marvel-info');
     const faveBtn = $('.fave');
@@ -25,10 +25,11 @@ $(document).ready(function() {
         '1009351', // Hulk
         '1009368', // Iron Man
         '1010744', // Rocket
+        '1009562', // Scarlet Witch
         '1009610', // Spider-Man
-        '1009619', // Star-Lord
+        '1010733', // Star-Lord
         '1009664', // Thor
-        '1010784'  // Wanda Vision
+        '1009697'  // Vision
     ];
 
     // Functions to store and retrieve the latitude and longitude from local storage
@@ -271,32 +272,31 @@ $(document).ready(function() {
         const toHash = ts + marvelPrivateKey + marvelPublicKey;
         const hash = md5(toHash);
         const baseUrl = "https://gateway.marvel.com/v1/public/characters";
-        let url = `${baseUrl}/1009610?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-
-        // we'll declare the 
         let heroes = getStoredHeroes();
 
-        for (let i = 0; i < characterID.length; ++i) {
-
-            url = `${baseUrl}/${characterID[i]}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
-
+        // Function to fetch and store each hero
+        const fetchHero = (characterID) => {
+            const url = `${baseUrl}/${characterID}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
             fetch(url)
-                .then(function (response) {
+                .then(response => {
                     if (!response.ok) {
                         throw new Error(`Marvel API response status: ${response.status}`);
                     }
                     return response.json();
                 })
-                .then(function (data) {
+                .then(data => {
                     const hero = data.data.results;
-
                     heroes.push(hero);
                     storeHeroes(heroes);
                 })
-                .catch(function (error) {
+                .catch(error => {
                     console.error("Error fetching Marvel API data:", error);
                 });
+        };
 
+        // Fetch all heroes and store them
+        for (let i = 0; i < characterID.length; ++i) {
+            fetchHero(characterID[i]);
         }
     }
 
@@ -312,6 +312,7 @@ $(document).ready(function() {
     submitBtn.on("click", formSubmitHandler);
     faveBtn.on("click", handleFave);
     faveList.on("click", ".delete-hero", handleDeleteHero);
+    cityFormEl.on("submit", formSubmitHandler);
     document.querySelector(".modal-close").addEventListener("click", closeModal);
 
     // initialize
