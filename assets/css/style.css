@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: 'DigitalStrip';
-  src: url('/assets/font/DigitalStrip2BB_reg.ttf') format('truetype');
+  src: url('./assets/font/DigitalStrip2BB_reg.ttf') format('truetype');
 }
 
 body {
@@ -24,7 +24,7 @@ body {
 }
 
 .has-bg-img {
-  background-image: url(/assets/images/4K\ Wallpaper\ For\ Pc\ Marvel\ Gallery.jpg)center center;
+  background-image: url(./assets/images/4K\ Wallpaper\ For\ Pc\ Marvel\ Gallery.jpg)center center;
   background-repeat: no-repeat;
   background-size: cover;
   
