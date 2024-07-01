@@ -181,6 +181,7 @@ const formSubmitHandler = function (event) {
 
     //function to pull random hero from array and put in localStorage
     setRandHero();
+    modalMarvelEl.empty();
     modalMarvelEl.append(printHeroCard(getRandHero()));
 };
 // -----
