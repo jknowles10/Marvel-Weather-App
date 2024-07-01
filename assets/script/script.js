@@ -3,6 +3,7 @@ const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
 const modalMarvelEl = $('#marvel-info');
 const faveBtn = $('.fave');
+const faveList = $('#favorites-list');
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d';
 let city;
@@ -286,6 +287,44 @@ function closeModal() {
 }
 // -----
 
+// function to display favorites
+function displayFavorites() {
+    const faves = getResultFaves();
+    faveList.empty(); // Assuming faveList is the container for favorite items
+
+    faves.forEach((fave, index) => {
+        const faveItem = $('<div>')
+            .addClass('fave-item')
+            .attr('data-index', index);
+
+        const heroName = $('<p>').text(fave.hero[0].name);
+        const deleteBtn = $('<button>')
+            .addClass('delete-fave')
+            .text('x')
+            .attr('data-index', index);
+
+        faveItem.append(heroName, deleteBtn);
+        faveList.append(faveItem);
+    });
+}
+
+// function to handle deleting a favorite
+function deleteFave(event) {
+    const target = $(event.target);
+    const index = target.data('index');
+    let faves = getResultFaves();
+
+    faves.splice(index, 1); // Remove the favorite at the specified index
+    storeResultFaves(faves); // Update local storage
+
+    displayFavorites(); // Refresh the displayed favorites list
+}
+
+// event listener for deleting a favorite
+$(document).on('click', '.delete-fave', deleteFave);
+
+// -----
+
 // event listener for closing the modal
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
 
@@ -297,8 +336,7 @@ cityInput.on('keydown', function (event) {
         event.preventDefault();
         submitBtn.click();
     }
-}
-); 
+}); 
 
 $(window).on('load', function () {
     if(localStorage.getItem('heroes') != null) {        
@@ -306,4 +344,6 @@ $(window).on('load', function () {
     } else {
         fetchMarvelAPI();
     }
-})
+
+displayFavorites();
+});
