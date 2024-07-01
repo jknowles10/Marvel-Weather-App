@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="theme-light">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +14,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-
 <body>
     <section class="header" style="padding-top: 50px; min-height: 30vh;">
        <div style="width:500px; margin:auto;" >
@@ -42,15 +40,26 @@
                             </div>
                         </div>
                         <div style="margin:auto" class="field">
-                            <button style=" letter-spacing:2px; font-family: 'Bangers', system-ui;" id="submit-button" class="button search">Submit</button> </div>
+                            <button style=" letter-spacing:2px; font-family: 'Bangers', system-ui;" id="submit-button" class="button search">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>  
         </div>
     </section>
     
-    <section>
-        <!--TO DO: add favorites list using: <div id="favorites-list"></div>-->
+    <section style="min-height: 30vh;">
+        <div class="container">
+            <h2 class="title has-text-centered" style="color: white; font-size: 30px; border-width: 2px; border-style: solid; border-color: white;">
+                Favorites
+            </h2>
+            <div id="favorites-list" class="has-text-centered" style="color: white;">
+                <section>
+                    <!-- Add favorites list -->
+                    <div id="favorites-list"></div>
+                </section>
+            </div>
+        </div>
     </section>
 
     <section style="min-height: 10vh;">
@@ -60,7 +69,7 @@
                 <header class="modal-card-head">
                     <p style="letter-spacing:2px; font-family: 'Bangers', system-ui;" class="modal-card-title has-text-centered">
                         Weather and Superhero</p>
-                    <button class="delete" aria-label="close"></button>
+                    <button class="delete modal-close" aria-label="close"></button>
                 </header>
                 <section style="letter-spacing: 2px; font-family:'Bangers', system-ui; min-height: 50vh;" class="modal-card-body">
                     <div id="weather-info"></div>
@@ -68,7 +77,7 @@
                 </section>
                 <footer class="modal-card-foot">
                     <div>
-                        <button style="letter-spacing: 2px; font-family: 'Bangers', system-ui;" class="button">Save to Favorites</button>
+                        <button style="letter-spacing: 2px; font-family: 'Bangers', system-ui;" class="button fave">Save to Favorites</button>
                     </div>
                 </footer>    
             </div>
@@ -84,3 +93,4 @@
     <script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
     <script src="./assets/script/script.js"></script>
 </body>
+</html>
