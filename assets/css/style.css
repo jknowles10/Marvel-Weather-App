@@ -27,12 +27,10 @@ body {
   background-image: url(./assets/images/4K\ Wallpaper\ For\ Pc\ Marvel\ Gallery.jpg)center center;
   background-repeat: no-repeat;
   background-size: cover;
-  
 }
 
 #main-text {
   font-family: 'DigitalStrip';
-
 }
 
 section {
@@ -57,7 +55,6 @@ section:nth-of-type(2) {
 section:nth-of-type(3) {
   background: #0388fe;
 }
-
 
 blockquote.electric {
   background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/electric.svg);
@@ -138,5 +135,4 @@ blockquote.electric span {
     min-height: 30vh;
 
   }*/
-
 }

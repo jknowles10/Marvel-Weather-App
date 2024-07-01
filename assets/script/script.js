@@ -3,6 +3,7 @@ const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
 const modalMarvelEl = $('#marvel-info');
 const faveBtn = $('.fave');
+const faveList = $('#favorites-list');
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d';
 let city;
@@ -13,15 +14,20 @@ const marvelPrivateKey = "86ea395eda010d8a803d9f684434090bc936618f";
 
 // Character IDs
 const characterID = [
-    '1009610', // Spider-Man
-    '1009368', // Iron Man
-    '1009220', // Captain America
-    '1009351', // Hulk
     '1009189', // Black Widow
-    '1009664', // Thor
+    '1009220', // Captain America
+    '1010338', // Captain Marvel
+    '1010735', // Drax 
     '1009268', // Deadpool
-    '1009282'  // Doctor Strange
-
+    '1009282', // Doctor Strange
+    '1010743', // Groot
+    '1009351', // Hulk
+    '1009368', // Iron Man
+    '1010744', // Rocket
+    '1009610', // Spider-Man
+    '1009619', // Star-Lord
+    '1009664', // Thor
+    '1010784'  // Wanda Vision
 ];
 
 // Functions to store and retrieve the latitude and longitude from local storage
@@ -59,7 +65,7 @@ function storeResultFaves(array) {
 }
 function getResultFaves() {
     if (localStorage.getItem('faveResults') != null) {
-        return JSON.parse(localStorage.getItem('faveReults'));
+        return JSON.parse(localStorage.getItem('faveResults'));
     } else {
         return [];
     }
@@ -104,7 +110,7 @@ function printHeroCard(hero) {
 // function to handle favorite button
 function handleFave(event) {
     event.preventDefault();
-    const target = event.target;
+    const target = $(event.target);
 
     // if the class is 'unfave' check the fave results array for a matching object and remove it
     if (target.hasClass('unfave')) {
@@ -123,7 +129,7 @@ function handleFave(event) {
         }
 
         // change what the lastResult was in local storage
-        localStorage.setItem('curResult', curResult);
+        localStorage.setItem('curResult', JSON.stringify(curResult));
 
         // pull in favorites from local storage, add lastResult to them, then put the array back into local storage
         const faveResults = getResultFaves();
@@ -141,7 +147,7 @@ function handleFave(event) {
 
         // loop through to find the matching result, if a match, splice the result out of the array
         for (let i = 0; i < faves.length; ++i) {
-            if (randHero.name === faves[i].name) {
+            if (randHero.name === faves[i].hero[0].name) {
                 faves.splice(i, 1);
             }
         }
@@ -157,7 +163,7 @@ faveBtn.on('click', handleFave);
 function setRandHero() {
     const heroes = getStoredHeroes();
     console.log(heroes.length + 1);
-    let randInt = Math.floor(Math.random() * (heroes.length + 1));
+    let randInt = Math.floor(Math.random() * heroes.length);
     heroes[randInt];
     localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
 }
@@ -281,6 +287,44 @@ function closeModal() {
 }
 // -----
 
+// function to display favorites
+function displayFavorites() {
+    const faves = getResultFaves();
+    faveList.empty();
+
+    faves.forEach((fave, index) => {
+        const faveItem = $('<div>')
+            .addClass('fave-item')
+            .attr('data-index', index);
+
+        const heroName = $('<p>').text(fave.hero[0].name);
+        const deleteBtn = $('<button>')
+            .addClass('delete-fave')
+            .text('x')
+            .attr('data-index', index);
+
+        faveItem.append(heroName, deleteBtn);
+        faveList.append(faveItem);
+    });
+}
+
+// function to handle deleting a favorite
+function deleteFave(event) {
+    const target = $(event.target);
+    const index = target.data('index');
+    let faves = getResultFaves();
+
+    faves.splice(index, 1); // Remove the favorite at the specified index
+    storeResultFaves(faves); // Update local storage
+
+    displayFavorites(); // Refresh the displayed favorites list
+}
+
+// event listener for deleting a favorite
+$(document).on('click', '.delete-fave', deleteFave);
+
+// -----
+
 // event listener for closing the modal
 $(document).on('click', '.modal-background, .delete, #modal-close', closeModal);
 
@@ -292,8 +336,7 @@ cityInput.on('keydown', function (event) {
         event.preventDefault();
         submitBtn.click();
     }
-}
-); 
+}); 
 
 $(window).on('load', function () {
     if(localStorage.getItem('heroes') != null) {        
@@ -301,4 +344,6 @@ $(window).on('load', function () {
     } else {
         fetchMarvelAPI();
     }
-})
+
+displayFavorites();
+});
