@@ -2,14 +2,14 @@ const cityInput = $('#city-input');
 const submitBtn = $('.search');
 const cityFormEl = $("#city-form");
 const modalMarvelEl = $('#marvel-info');
-const faveBtn = $('#fave');
+const faveBtn = $('.fave');
 
 const APIKey = '89c2d10cea5bf468636c45b15924d79d';
 let city;
 
 // Marvel API keys
-const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
-const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
+const marvelPublicKey = "95b5ea0a1e7686337cf92c09f3af77c9";
+const marvelPrivateKey = "86ea395eda010d8a803d9f684434090bc936618f";
 
 // Character IDs
 const characterID = [
@@ -48,7 +48,10 @@ function getStoredHeroes() {
         return [];
     }
 }
+// -----
 
+
+// functions for storing and retrieving favorites
 function storeResultFaves(array) {
     localStorage.setItem('faveResults', JSON.stringify(array));
 }
@@ -63,9 +66,9 @@ function getResultFaves() {
 
 // function to make hero cards
 function printHeroCard(hero) {
-    const name = hero.name;
-    const pic = `${hero.thumbnail.path}.${hero.thumbnail.extension}`;
-    const desc = hero.description;
+    const name = hero[0].name;
+    const pic = `${hero[0].thumbnail.path}.${hero[0].thumbnail.extension}`;
+    const desc = hero[0].description;
 
     // create card elements
     const heroCard = $('<div>')
@@ -97,13 +100,15 @@ function printHeroCard(hero) {
 // -----
 
 // function to handle favorite button
-function handleFave() {
+function handleFave(event) {
+    event.preventDefault();
+    const target = event.target;
 
     // if the class is 'unfave' check the fave results array for a matching object and remove it
-    if (faveBtn.hasClass('unfave')) {
+    if (target.hasClass('unfave')) {
         // handle toggling the fave class of the favorite button
-        faveBtn.removeClass('unfave');
-        faveBtn.addClass('fave');
+        target.removeClass('unfave');
+        target.addClass('fave');
 
         // setup variables for the lastResult object
         const randHero = JSON.parse(localStorage.getItem('randHero'));
@@ -125,8 +130,8 @@ function handleFave() {
 
     } else {
         // handle the fave class toggle when the user clicks it.
-        faveBtn.removeClass('fave');
-        faveBtn.addClass('unfave');
+        target.removeClass('fave');
+        target.addClass('unfave');
 
         // pull the array from local storage, as well as the rand hero
         let faves = getResultFaves();
@@ -145,6 +150,21 @@ function handleFave() {
 }
 
 faveBtn.on('click', handleFave);
+
+// function to set a random hero from the array in local storage
+function setRandHero() {
+    const heroes = getStoredHeroes();
+    console.log(heroes.length + 1);
+    let randInt = Math.floor(Math.random() * (heroes.length + 1));
+    heroes[randInt];
+    localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
+}
+//function to get the current randHero from local storage
+function getRandHero() {
+    if(localStorage.getItem('randHero') != null){
+        return JSON.parse(localStorage.getItem('randHero'));
+    }
+}
 
 // function to handle when the search is submitted
 const formSubmitHandler = function (event) {
@@ -190,17 +210,10 @@ const formSubmitHandler = function (event) {
 
     cityInput.val("");
 
-    fetchMarvelAPI();
-
     //function to pull random hero from array and put in localStorage
-
-    function randHero() {
-        const heroes = getStoredHeroes();
-        console.log(heroes);
-        let randInt = Math.floor(Math.random() * (heroes.length + 1));
-        heroes[randInt];
-        localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
-    }
+    setRandHero();
+    modalMarvelEl.empty();
+    modalMarvelEl.append(printHeroCard(getRandHero()));
 };
 // -----
 
@@ -219,7 +232,7 @@ function fetchMarvelAPI() {
 
         url = `${baseUrl}/${characterID[i]}?ts=${ts}&apikey=${marvelPublicKey}&hash=${hash}`;
 
-        console.log(`Fetching Marvel API with URL: ${url}`);
+        //console.log(`Fetching Marvel API with URL: ${url}`);
 
         fetch(url)
             .then(function (response) {
@@ -230,7 +243,8 @@ function fetchMarvelAPI() {
             })
             .then(function (data) {
                 //console.log("Full API response:", JSON.stringify(data, null, 2)); // Log the full response to inspect it
-                const heroes = data.data.results;
+
+                const hero = data.data.results;
                 modalMarvelEl.empty(); // Clear previous results
                 // we'll fill the modal with the random hero
 
@@ -242,6 +256,10 @@ function fetchMarvelAPI() {
                 */
 
                 // we'll save the heroes array after the for loop
+                // storeHeroes(heroes);
+
+                heroes.push(hero);
+                //console.log(heroes);
                 storeHeroes(heroes);
             })
             .catch(function (error) {
@@ -249,8 +267,6 @@ function fetchMarvelAPI() {
             });
 
     }
-
-
 }
 // -----
 
@@ -274,4 +290,13 @@ cityInput.on('keydown', function (event) {
         event.preventDefault();
         submitBtn.click();
     }
-}); 
+}
+); 
+
+$(window).on('load', function () {
+    if(localStorage.getItem('heroes') != null) {        
+    console.log('heroes populated');
+    } else {
+        fetchMarvelAPI();
+    }
+})
