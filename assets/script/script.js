@@ -119,6 +119,7 @@ $(document).ready(function() {
 
         // if the class is 'unfave' check the fave results array for a matching object and remove it
         if (target.hasClass('unfave')) {
+            
             // handle toggling the fave class of the favorite button
             target.removeClass('unfave');
             target.addClass('fave');
@@ -141,7 +142,7 @@ $(document).ready(function() {
             faveResults.push(curResult);
             storeResultFaves(faveResults);
 
-            displayFavorites(); // Update the displayed favorites list
+            displayFavorites();
 
         } else {
             // handle the fave class toggle when the user clicks it.
@@ -162,7 +163,7 @@ $(document).ready(function() {
             // put the array back into local storage
             storeResultFaves(faves);
 
-            displayFavorites(); // Update the displayed favorites list
+            displayFavorites();
         }
     }
 
@@ -184,7 +185,7 @@ $(document).ready(function() {
         // put the array back into local storage
         storeResultFaves(faves);
 
-        displayFavorites(); // Update the displayed favorites list
+        displayFavorites();
     }
 
     // function to display favorites
@@ -286,6 +287,7 @@ $(document).ready(function() {
                 })
                 .then(data => {
                     const hero = data.data.results;
+                    console.log(`Fetched hero: ${hero[0].name}`);
                     heroes.push(hero);
                     storeHeroes(heroes);
                 })
