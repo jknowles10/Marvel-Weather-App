@@ -10,8 +10,8 @@ $(document).ready(function() {
     let city;
 
     // Marvel API keys
-    const marvelPublicKey = "95b5ea0a1e7686337cf92c09f3af77c9";
-    const marvelPrivateKey = "86ea395eda010d8a803d9f684434090bc936618f";
+    const marvelPublicKey = "7dd64902fdfe2b8d64b865f83142c32f";
+    const marvelPrivateKey = "b7319c3da56a792ec88538764bbec49a744ce31f";
 
     // Character IDs
     const characterID = [
