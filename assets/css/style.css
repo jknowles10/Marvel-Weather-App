@@ -88,7 +88,7 @@ blockquote.electric span {
   blockquote {
     height: 600px;
   }
-
+/*
   .title {
     font-size: ;
 
@@ -99,16 +99,20 @@ blockquote.electric span {
 
   }
 
-  .title-section {}
+  .title-section {
 
-  .main-section {}
+  }
+
+  .main-section {
+
+  }*/
 }
 
 @media screen and (max-width: 480px) {
   blockquote {
     height: 300px
   }
-
+/*
   .title {
     font-size: ;
   }
@@ -126,6 +130,6 @@ blockquote.electric span {
   .main-section {
     min-height: 30vh;
 
-  }
+  }*/
 
 }
