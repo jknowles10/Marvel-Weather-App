@@ -40,6 +40,8 @@ function getLon() {
 // function to save heroes to local storage
 function storeHeroes(heroArray) {
     localStorage.setItem('heroes', JSON.stringify(heroArray));
+
+    
 }
 function getStoredHeroes() {
     if (localStorage.getItem('heroes') != null) {
