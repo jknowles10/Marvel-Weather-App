@@ -290,7 +290,7 @@ function closeModal() {
 // function to display favorites
 function displayFavorites() {
     const faves = getResultFaves();
-    faveList.empty(); // Assuming faveList is the container for favorite items
+    faveList.empty();
 
     faves.forEach((fave, index) => {
         const faveItem = $('<div>')
