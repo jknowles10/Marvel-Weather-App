@@ -110,9 +110,20 @@ blockquote.electric span {
 }
 
 @media screen and (max-width:768px) {
-  blockquote {
-    height: 600px;
+  .header {
+   width: 60%;
+    
   }
+  
+  div.marvel {
+
+    width:45vw;
+  }
+  
+  h1.meteotology {
+    width:8vw;
+  }
+}
 
   .header {
     color: white;
@@ -153,10 +164,6 @@ blockquote.electric span {
   }*/
 }
 
-@media screen and (max-width: 480px) {
-  blockquote {
-    height: 300px
-  }
 
   .header h1.title {
     color: white;
