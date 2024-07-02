@@ -37,11 +37,15 @@ $(document).ready(function() {
         localStorage.setItem('lat', JSON.stringify(lat));
         localStorage.setItem('lon', JSON.stringify(lon));
     }
+
     function getLat() {
-        return JSON.parse(localStorage.getItem('lat'));
+        const lat = localStorage.getItem('lat');
+        return lat ? JSON.parse(lat) : null;
     }
+
     function getLon() {
-        return JSON.parse(localStorage.getItem('lon'));
+        const lon = localStorage.getItem('lon');
+        return lon ? JSON.parse(lon) : null;
     }
     // -----
 
@@ -49,12 +53,10 @@ $(document).ready(function() {
     function storeHeroes(heroArray) {
         localStorage.setItem('heroes', JSON.stringify(heroArray));
     }
+
     function getStoredHeroes() {
-        if (localStorage.getItem('heroes') != null) {
-            return JSON.parse(localStorage.getItem('heroes'));
-        } else {
-            return [];
-        }
+        const heroes = localStorage.getItem('heroes');
+        return heroes ? JSON.parse(heroes) : [];
     }
     // -----
 
@@ -62,12 +64,10 @@ $(document).ready(function() {
     function storeResultFaves(array) {
         localStorage.setItem('faveResults', JSON.stringify(array));
     }
+
     function getResultFaves() {
-        if (localStorage.getItem('faveResults') != null) {
-            return JSON.parse(localStorage.getItem('faveResults'));
-        } else {
-            return [];
-        }
+        const faveResults = localStorage.getItem('faveResults');
+        return faveResults ? JSON.parse(faveResults) : [];
     }
     // -----
 
@@ -126,8 +126,8 @@ $(document).ready(function() {
 
             // setup variables for the lastResult object
             const randHero = JSON.parse(localStorage.getItem('randHero'));
-            const curLat = JSON.parse(localStorage.getItem('lat'));
-            const curLon = JSON.parse(localStorage.getItem('lon'));
+            const curLat = getLat();
+            const curLon = getLon();
             const curResult = {
                 hero: randHero,
                 lat: curLat,
@@ -206,15 +206,16 @@ $(document).ready(function() {
     // function to set a random hero from the array in local storage
     function setRandHero() {
         const heroes = getStoredHeroes();
-        let randInt = Math.floor(Math.random() * heroes.length);
-        localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
+        if (heroes.length > 0) {
+            let randInt = Math.floor(Math.random() * heroes.length);
+            localStorage.setItem('randHero', JSON.stringify(heroes[randInt]));
+        }
     }
 
     // function to get the current randHero from local storage
     function getRandHero() {
-        if(localStorage.getItem('randHero') != null){
-            return JSON.parse(localStorage.getItem('randHero'));
-        }
+        const randHero = localStorage.getItem('randHero');
+        return randHero ? JSON.parse(randHero) : null;
     }
 
     // function to handle when the search is submitted
@@ -264,7 +265,10 @@ $(document).ready(function() {
         // function to pull random hero from array and put in localStorage
         setRandHero();
         modalMarvelEl.empty();
-        modalMarvelEl.append(printHeroCard(getRandHero()));
+        const randHero = getRandHero();
+        if (randHero) {
+            modalMarvelEl.append(printHeroCard(randHero));
+        }
     };
 
     // Marvel fetch function
@@ -319,7 +323,7 @@ $(document).ready(function() {
 
     // initialize
     fetchMarvelAPI();
-    displayFavorites(); // Display favorites on page load
+    displayFavorites();
 
     // Export functions for testing
     if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
