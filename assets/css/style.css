@@ -16,11 +16,32 @@
   src: url('./assets/font/DigitalStrip2BB_reg.ttf') format('truetype');
 }
 
+div p {
+  letter-spacing:2px;
+  font-family: 'Bangers', system-ui;
+  color:black;
+}
+
 body {
   align-content: center;
   text-align: center;
   font-family: 'DigitalStrip';
   color: black;
+}
+
+.header h1.sub {
+  letter-spacing: 2px;
+  color:white;
+  font-size:50px;
+  font-family: Bangers, system-ui;
+}
+
+.header h1.title {
+  color: white;
+  font-size: 75px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: white;
 }
 
 .has-bg-img {
@@ -92,7 +113,27 @@ blockquote.electric span {
   blockquote {
     height: 600px;
   }
-/*
+
+  .header {
+    color: white;
+    font-size: 25px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+  }
+
+  section {
+    min-width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  section {
+    padding: 3rem;
+  }
+
+  /*
   .title {
     font-size: ;
 
@@ -116,7 +157,23 @@ blockquote.electric span {
   blockquote {
     height: 300px
   }
-/*
+
+  .header h1.title {
+    color: white;
+    font-size: 55px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+  }
+
+  .header h1.sub {
+    letter-spacing: 2px;
+    color:white;
+    font-size:50px;
+    font-family: Bangers, system-ui;
+  }
+
+  /*
   .title {
     font-size: ;
   }
