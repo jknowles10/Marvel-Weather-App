@@ -31,6 +31,8 @@ As a civilian without superpowers, I would like an app that shows me which Marve
 Link to live application: https://jknowles10.github.io/Marvel-Weather-App/
 https://jknowles10.github.io/Marvel-Weather-App/
 
+![Screenshot to site](./assets/images/SiteScreenshot.PNG)
+
 
 ## License
 MIT License
