@@ -57,13 +57,15 @@ MIT License
 ## Credits
 - CSS Framework:https://bulma.io/ 
 - Fonts: Google Fonts (Libre Franklin, Bangers) 
-- Marvel API:
-    - Developer Portal: https://developer.marvel.com/
-    - Interactive API Tester: https://developer.marvel.com/docs
+- Marvel
+    - Marvel: https://www.marvel.com/
+    - Marvel API:
+        - Developer Portal: https://developer.marvel.com/
+        - Interactive API Tester: https://developer.marvel.com/docs
+    - Marvel Studios: https://www.marvel.com/movies
 - MD5 string
     - Geeks for Geeks: https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/
     - Stack Overflow: https://stackoverflow.com/questions/74290294/how-to-create-fast-and-small-hash-on-javascript-typescript-in-the-browser-and
     - Tech Target : https://www.techtarget.com/searchsecurity/definition/MD5
 - OpenWeather Weather API: https://openweathermap.org/api
-
-
+- Wallpapers.com: https://wallpapers.com/4k-marvel
